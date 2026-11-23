@@ -1,0 +1,32 @@
+name: Backend_Ci
+on:
+  pull_request:
+    paths: ["Backend/**", ".github/workflows/Backend_Ci.yml"]
+  push:
+    branches: [main]
+    paths: ["Backend/**"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Backend/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      # Isolation tests run against a dedicated Supabase CI project (secrets set in repo settings)
+      - run: npm run Db_Migrate && npm run Db_Rls_Check && npm run Db_Seed && npm test
+        if: ${{ env.MIGRATION_DATABASE_URL != '' }}
+        env:
+          MIGRATION_DATABASE_URL: ${{ secrets.CI_MIGRATION_DATABASE_URL }}
+          DATABASE_URL: ${{ secrets.CI_DATABASE_URL }}
+          APP_DB_PASSWORD: ${{ secrets.CI_APP_DB_PASSWORD }}
+          JWT_ACCESS_SECRET: ${{ secrets.CI_JWT_ACCESS_SECRET }}
+          SEED_USER_PASSWORD: ${{ secrets.CI_SEED_USER_PASSWORD }}

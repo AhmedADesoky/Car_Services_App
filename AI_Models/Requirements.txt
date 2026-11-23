@@ -1,0 +1,34 @@
+# AI_Models/Requirements.txt  - Python 3.11 (Kaggle / Colab / local GPU)
+# Core
+torch>=2.4
+torchvision>=0.19
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.5
+matplotlib>=3.9
+tqdm>=4.66
+pyyaml>=6.0
+opencv-python-headless>=4.10
+pillow>=10.4
+albumentations>=1.4
+
+# Plate recognition
+ultralytics>=8.3          # YOLO11 detector (AGPL-3.0: commercial closed-source use needs an Ultralytics licence)
+editdistance>=0.8
+
+# Face recognition / liveness
+timm>=1.0                 # DINOv2 ViT-S backbone for the server liveness model
+peft>=0.12                # LoRA fine-tuning
+mediapipe>=0.10.14        # Face Landmarker (active liveness prompts)
+
+# Export
+onnx>=1.16
+onnxruntime>=1.19
+onnxsim>=0.4
+ai-edge-torch>=0.2        # PyTorch -> LiteRT (.tflite) for Android
+coremltools>=8.0          # PyTorch -> Core ML (.mlpackage) for iOS (conversion runs best on macOS)
+
+# Notebooks
+jupyterlab>=4.2
+ipywidgets>=8.1
+kaggle>=1.6

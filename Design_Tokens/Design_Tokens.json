@@ -1,0 +1,40 @@
+{
+  "Source": "Android and iOS design canvases (Vehicle Service App)",
+  "Color": {
+    "Navy": "#0B2545",
+    "Navy_Ink": "#0B1B2E",
+    "Teal": "#0E8A86",
+    "Teal_Dark": "#08534F",
+    "Teal_Light": "#DDF2F1",
+    "Teal_Glow": "#7FD3CF",
+    "Amber": "#F2B544",
+    "Orange": "#E8833A",
+    "Orange_Dark": "#8A3D0C",
+    "Orange_Light": "#FFE9D8",
+    "Blue_Light": "#CFE0F1",
+    "Blue_Tint": "#DCE7F3",
+    "Background": "#F3F6FA",
+    "Surface": "#FFFFFF",
+    "Text_Secondary": "#5A6B7D",
+    "Text_Tertiary": "#3E5368",
+    "Outline": "#8A9AAD",
+    "Divider": "#E3E9EF"
+  },
+  "Status": {
+    "Repaired": "#0E8A86",
+    "Replaced": "#0B2545",
+    "Needs_Attention": "#E8833A"
+  },
+  "Typography": {
+    "Android_Latin": "Roboto Flex",
+    "Android_Arabic": "Noto Kufi Arabic",
+    "Ios_Latin": "SF Pro",
+    "Ios_Arabic": "IBM Plex Sans Arabic",
+    "Display": { "Size": 30, "Weight": 800 },
+    "Title": { "Size": 20, "Weight": 800 },
+    "Body": { "Size": 15, "Weight": 400 },
+    "Label": { "Size": 12, "Weight": 600 }
+  },
+  "Shape": { "Card_Radius": 22, "Button_Radius": 18, "Field_Radius": 16, "Sheet_Radius": 28 },
+  "Motion": { "Screen_Ms": 300, "Fade_Ms": 200, "Stagger_Ms": 40, "Easing": "cubic-bezier(.2,0,0,1)" }
+}

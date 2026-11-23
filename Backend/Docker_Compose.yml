@@ -1,0 +1,10 @@
+# Local helpers for later phases (P1+). Postgres and file storage come from Supabase,
+# so there is no local Postgres or MinIO here.
+# Run: docker compose -f Docker_Compose.yml up -d
+services:
+  redis:
+    image: redis:7.4-alpine
+    ports: ["6379:6379"]
+  rabbitmq:
+    image: rabbitmq:4.0-management-alpine
+    ports: ["5672:5672", "15672:15672"]

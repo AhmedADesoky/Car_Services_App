@@ -1,0 +1,129 @@
+openapi: 3.1.0
+info:
+  title: Car Services SaaS Core API
+  version: 0.1.0
+  description: >
+    Contract v0 (Phase P0/P1). The tenant is NEVER sent in paths or bodies -
+    it is taken from the JWT `tid` claim (spec section 3.1).
+servers:
+  - url: http://localhost:3000/v1
+    description: Local backend
+  - url: http://10.0.2.2:3000/v1
+    description: Local backend as seen from the Android emulator
+paths:
+  /health:
+    get:
+      summary: Liveness + database ping
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Health" }
+  /devices/bind:
+    post:
+      summary: Bind this device to a station (S1)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Bind_Request" }
+      responses:
+        "200":
+          description: Device bound
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Bind_Response" }
+        "404": { $ref: "#/components/responses/Problem" }
+  /auth/login:
+    post:
+      summary: Login with station (from device) + username + password (01)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/Login_Request" }
+      responses:
+        "200":
+          description: Tokens
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Login_Response" }
+        "401": { $ref: "#/components/responses/Problem" }
+        "423": { $ref: "#/components/responses/Problem" }
+  /auth/me:
+    get:
+      summary: Current user (requires Bearer token)
+      security: [{ Bearer: [] }]
+      responses:
+        "200":
+          description: Current user
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Me" }
+        "401": { $ref: "#/components/responses/Problem" }
+components:
+  securitySchemes:
+    Bearer: { type: http, scheme: bearer, bearerFormat: JWT }
+  responses:
+    Problem:
+      description: RFC 9457 problem
+      content:
+        application/problem+json:
+          schema: { $ref: "#/components/schemas/Problem" }
+  schemas:
+    Health:
+      type: object
+      properties:
+        status: { type: string, example: ok }
+        db: { type: string, example: up }
+        time: { type: string, format: date-time }
+    Bind_Request:
+      type: object
+      required: [stationCode, platform]
+      properties:
+        stationCode: { type: string, minLength: 4, maxLength: 12, example: ALNOUR }
+        platform: { type: string, enum: [android, ios] }
+        model: { type: string }
+        osVersion: { type: string }
+        appVersion: { type: string }
+    Bind_Response:
+      type: object
+      properties:
+        deviceId: { type: string, format: uuid }
+        stationCode: { type: string }
+        stationName: { type: string }
+        defaultLocale: { type: string, example: ar }
+    Login_Request:
+      type: object
+      required: [stationCode, deviceId, username, password]
+      properties:
+        stationCode: { type: string }
+        deviceId: { type: string, format: uuid }
+        username: { type: string }
+        password: { type: string, format: password }
+    Login_Response:
+      type: object
+      properties:
+        accessToken: { type: string }
+        refreshToken: { type: string }
+        expiresIn: { type: integer, example: 900 }
+        mustChangePassword: { type: boolean }
+        user: { $ref: "#/components/schemas/Me" }
+    Me:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        username: { type: string }
+        displayName: { type: string }
+        roles: { type: array, items: { type: string } }
+        stationName: { type: string }
+        locale: { type: string }
+    Problem:
+      type: object
+      properties:
+        type: { type: string }
+        title: { type: string }
+        status: { type: integer }
+        code: { type: string, example: INVALID_CREDENTIALS }
+        detail: { type: string }

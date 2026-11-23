@@ -1,0 +1,48 @@
+# Secrets
+.env
+*.env.local
+*.keystore
+*.jks
+local.properties
+google-services.json
+GoogleService-Info.plist
+
+# Node / Backend
+node_modules/
+dist/
+coverage/
+*.log
+
+# Android / Gradle
+.gradle/
+build/
+.idea/
+*.iml
+.kotlin/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# iOS
+DerivedData/
+*.xcuserstate
+xcuserdata/
+
+# Python / AI
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+AI_Models/Data/
+AI_Models/Runs/
+AI_Models/Weights/
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.mlpackage/
+*.safetensors
+
+# OS
+.DS_Store
+Thumbs.db
