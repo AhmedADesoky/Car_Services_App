@@ -27,7 +27,7 @@ CELLS: Dict[str, Tuple[float, float, float, float]] = {
     "num_lat":   (0.38, 0.57, 0.98, 0.95),
 }
 STRIP = (0.0, 0.0, 0.18, 1.0)   # "الكويت / KUWAIT" + flag colours (not read)
-CELL_H, CELL_W = 32, 100        # recogniser input size per cell (gray)
+CELL_H, CELL_W = 32, 160        # recogniser input: 32 px high, shape kept, padded to 160 px (gray)
 
 
 def warp(image: np.ndarray, corners: Sequence[Tuple[float, float]]) -> np.ndarray:
@@ -50,3 +50,16 @@ def split_cells(plate: np.ndarray) -> Dict[str, np.ndarray]:
 def cell_box_px(name: str, w: int = CANONICAL_W, h: int = CANONICAL_H) -> Tuple[int, int, int, int]:
     x0, y0, x1, y1 = CELLS[name]
     return int(x0 * w), int(y0 * h), int(x1 * w), int(y1 * h)
+
+
+def cell_input(cell: np.ndarray) -> np.ndarray:
+    """Gray, 32 px high with the original aspect ratio kept (digits never stretched), left-aligned and padded to
+    CELL_W with the cell's own background tone. Use the SAME function in training, evaluation and the apps."""
+    import cv2
+    g = cell if cell.ndim == 2 else cv2.cvtColor(cell, cv2.COLOR_BGR2GRAY)
+    h, w = g.shape[:2]
+    new_w = int(min(CELL_W, max(1, round(w * CELL_H / max(h, 1)))))
+    resized = cv2.resize(g, (new_w, CELL_H), interpolation=cv2.INTER_AREA)
+    out = np.full((CELL_H, CELL_W), int(np.median(resized)), np.uint8)
+    out[:, :new_w] = resized
+    return out

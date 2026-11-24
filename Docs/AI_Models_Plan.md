@@ -45,6 +45,11 @@ All training happens in **Jupyter notebooks** under `AI_Models/` (PyTorch). Ever
 Split by **plate key** so the same car is never in train and test. No public Kuwaiti dataset of useful size is known - the synthetic generator and the pilot capture campaign are the critical path.
 
 ### Notebooks — `AI_Models/Plate_Recognition/`
+**One-notebook option (Kaggle):** `Plate_Full_Pipeline_Kaggle.ipynb` runs steps 01–06 end to end on a Kaggle GPU
+(downloads fonts + real car photos, generates Kuwaiti plates, trains YOLO11n-pose + the cell CRNN, evaluates end to end,
+exports ONNX and zips a model package). Edit `Plate_Full_Pipeline_Kaggle.py`, then rebuild with `python Build_Kaggle_Notebook.py`.
+`RUN_MODE = "quick"` (~30 min on a T4) or `"full"` (hours).
+
 | Notebook | Output |
 |---|---|
 | `01_Plate_Dataset_Preparation` | YOLO dataset `plates.yaml`, recognition crops `labels.csv` |

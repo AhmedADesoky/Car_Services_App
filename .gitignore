@@ -50,3 +50,10 @@ Thumbs.db
 # PDF build scratch
 Docs/Team_Plan/.Build/
 Backend/dist-platform/
+
+# AI notebook outputs (local test runs, exported model packages)
+Kaggle_Work/
+*.tflite
+*.mlpackage/
+plate_package_*/
+plate_package_*.zip
