@@ -44,6 +44,7 @@ dependencies {
     implementation(project(":Core_Security"))
     implementation(project(":Feature_Auth"))
     implementation(project(":Feature_Home"))
+    implementation(project(":Feature_Station"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)

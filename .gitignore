@@ -46,3 +46,6 @@ AI_Models/Weights/
 # OS
 .DS_Store
 Thumbs.db
+
+# PDF build scratch
+Docs/Team_Plan/.Build/

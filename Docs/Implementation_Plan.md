@@ -52,7 +52,7 @@ The apps never call Supabase directly. The tenant comes **only** from our JWT `t
 
 **Android**
 * Modules: App, Core_Designsystem, Core_Network, Core_Security, Feature_Auth, Feature_Home.
-* Bind (S1) → Sign in (01, EN / عربي + RTL) → Home (02, shows API + DB status and roles).
+* Bind (S1) → Sign in (01, EN / عربي + RTL) → Home (02, greeting with the user and station name, check-in card placeholder).
 * Keystore-encrypted tokens, automatic token refresh, Idempotency-Key on every POST.
 
 **AI**

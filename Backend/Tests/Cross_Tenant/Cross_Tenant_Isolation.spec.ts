@@ -23,7 +23,8 @@ describeDb('Tenant isolation', () => {
     const { Problem_Json_Filter } = await import('../../src/Common/Errors/Problem_Json_Filter');
     const moduleRef = await Test.createTestingModule({ imports: [App_Module] }).compile();
     app = moduleRef.createNestApplication();
-    app.setGlobalPrefix('v1');
+    const { configureApp } = await import('../../src/Main_Setup');
+    configureApp(app);
     app.useGlobalFilters(new Problem_Json_Filter());
     await app.init();
   });

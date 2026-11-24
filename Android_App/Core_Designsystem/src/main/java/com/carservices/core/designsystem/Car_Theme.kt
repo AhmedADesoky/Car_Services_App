@@ -39,12 +39,13 @@ private val CarColorScheme = lightColorScheme(
 private val CarFont = FontFamily.SansSerif
 
 private val CarTypography = Typography(
-    displaySmall = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.ExtraBold, fontSize = 30.sp, lineHeight = 36.sp),
-    headlineSmall = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.ExtraBold, fontSize = 20.sp),
-    titleMedium = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.Bold, fontSize = 17.sp),
-    bodyLarge = TextStyle(fontFamily = CarFont, fontSize = 16.sp),
-    bodyMedium = TextStyle(fontFamily = CarFont, fontSize = 15.sp, lineHeight = 22.sp),
-    labelMedium = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.SemiBold, fontSize = 12.sp),
+    displaySmall = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.ExtraBold, fontSize = 32.sp, lineHeight = 38.sp, letterSpacing = (-0.8).sp),
+    headlineMedium = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.ExtraBold, fontSize = 26.sp, lineHeight = 32.sp, letterSpacing = (-0.5).sp),
+    headlineSmall = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.ExtraBold, fontSize = 21.sp, letterSpacing = (-0.3).sp),
+    titleMedium = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.Bold, fontSize = 16.sp, letterSpacing = (-0.1).sp),
+    bodyLarge = TextStyle(fontFamily = CarFont, fontSize = 16.sp, lineHeight = 23.sp),
+    bodyMedium = TextStyle(fontFamily = CarFont, fontSize = 14.sp, lineHeight = 21.sp),
+    labelMedium = TextStyle(fontFamily = CarFont, fontWeight = FontWeight.SemiBold, fontSize = 12.sp, letterSpacing = 0.2.sp),
 )
 
 private val CarShapes = Shapes(

@@ -49,11 +49,15 @@ class IdempotencyInterceptor : Interceptor {
     }
 }
 
+private val CREDENTIAL_PATHS = listOf("/auth/login", "/auth/mfa/verify", "/auth/password", "/auth/mfa/enable", "/auth/mfa/setup", "/auth/logout")
+
 /** On 401, rotates the refresh token once and retries; otherwise signs the user out. */
 class TokenAuthenticator(private val tokens: TokenProvider, private val refreshApi: () -> Refresh_Api) : Authenticator {
     @Synchronized
     override fun authenticate(route: Route?, response: Response): Request? {
-        if (response.request.url.encodedPath.endsWith("/auth/login")) return null
+        // These answer 401 for a wrong password / code: that is not an expired session, never refresh for them.
+        val path = response.request.url.encodedPath
+        if (CREDENTIAL_PATHS.any { path.endsWith(it) }) return null
         if (responseCount(response) >= 2) return null
 
         val sentToken = response.request.header("Authorization")?.removePrefix("Bearer ")

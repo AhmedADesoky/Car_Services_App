@@ -22,14 +22,50 @@ data class BindResponse(val deviceId: String, val stationCode: String, val stati
 @Serializable
 data class LoginRequest(val stationCode: String, val deviceId: String, val username: String, val password: String)
 
+/**
+ * Sign-in result. One of three shapes:
+ *  - mfaRequired = true  -> mfaToken set, no tokens: ask for the 6-digit code (POST auth/mfa/verify)
+ *  - setup != null       -> restricted accessToken, refreshToken = null: finish set-up first (screen S2)
+ *  - otherwise           -> full session (accessToken + refreshToken)
+ */
 @Serializable
 data class LoginResponse(
-    val accessToken: String,
-    val refreshToken: String,
-    val expiresIn: Int,
+    val accessToken: String? = null,
+    val refreshToken: String? = null,
+    val expiresIn: Int = 0,
     val mustChangePassword: Boolean = false,
+    val mfaRequired: Boolean = false,
+    val mfaToken: String? = null,
+    val setup: SetupNeeds? = null,
+    val recoveryCodeUsed: Boolean = false,
     val user: MeResponse,
 )
+
+/** What a new account must still do before it gets a full session. */
+@Serializable
+data class SetupNeeds(val password: Boolean = false, val mfa: Boolean = false)
+
+/** Session part returned by password change / 2FA enable. */
+@Serializable
+data class SessionResponse(
+    val accessToken: String,
+    val refreshToken: String? = null,
+    val expiresIn: Int = 0,
+    val setup: SetupNeeds? = null,
+    val recoveryCodes: List<String> = emptyList(),
+)
+
+@Serializable
+data class MfaVerifyRequest(val mfaToken: String, val code: String)
+
+@Serializable
+data class PasswordChangeRequest(val currentPassword: String, val newPassword: String)
+
+@Serializable
+data class MfaSetupResponse(val secret: String, val otpauthUri: String)
+
+@Serializable
+data class MfaEnableRequest(val code: String)
 
 @Serializable
 data class RefreshRequest(val refreshToken: String)

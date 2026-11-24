@@ -2,7 +2,9 @@ package com.carservices.app.Navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -14,12 +16,15 @@ import com.carservices.feature.auth.BindScreen
 import com.carservices.feature.auth.BindViewModel
 import com.carservices.feature.auth.LoginScreen
 import com.carservices.feature.auth.LoginViewModel
-import com.carservices.feature.home.HomeScreen
+import com.carservices.feature.auth.AccountSetupScreen
+import com.carservices.feature.auth.SetupViewModel
+import com.carservices.feature.station.StationApp
 import com.carservices.feature.home.HomeViewModel
 
 object Routes {
     const val BIND = "bind"     // S1
     const val LOGIN = "login"   // 01
+    const val SETUP = "setup"   // S2 - first sign-in: new password + 2-step verification
     const val HOME = "home"     // 02
 }
 
@@ -52,11 +57,23 @@ fun AppNavHost(container: AppContainer, session: Session, nav: NavHostController
                 stationName = session.stationName ?: "",
                 onSignedIn = { nav.goTo(Routes.HOME) },
                 onStationChanged = { nav.goTo(Routes.BIND) },
+                onNeedsSetup = { nav.navigate(Routes.SETUP) },
             )
         }
+        composable(Routes.SETUP) {
+            val vm = viewModel { SetupViewModel(container.authRepository) }
+            AccountSetupScreen(vm, onDone = { nav.goTo(Routes.HOME) }, onCancel = { nav.goTo(Routes.LOGIN) })
+        }
         composable(Routes.HOME) {
+            // 02+ : the station shell (UI screens with sample data; each feature wires its logic in its phase).
+            // Name and station come from the real signed-in user.
             val vm = viewModel { HomeViewModel(container.api, container.sessions) }
-            HomeScreen(vm, onSignedOut = { nav.goTo(Routes.LOGIN) })
+            val state by vm.state.collectAsStateWithLifecycle()
+            StationApp(
+                userName = state.me?.displayName ?: "",
+                stationName = state.me?.stationName ?: session.stationName ?: "",
+                onSignOut = { vm.signOut { nav.goTo(Routes.LOGIN) } },
+            )
         }
     }
 }

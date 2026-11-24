@@ -4,10 +4,11 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { App_Module } from './App_Module';
 import { Problem_Json_Filter } from './Common/Errors/Problem_Json_Filter';
+import { configureApp } from './Main_Setup';
 
 async function bootstrap(): Promise<void> {
-  const app = await NestFactory.create(App_Module);
-  app.setGlobalPrefix('v1');
+  const app = await NestFactory.create(App_Module, { bodyParser: true });
+  configureApp(app);
   app.useGlobalFilters(new Problem_Json_Filter());
   app.enableShutdownHooks();
 

@@ -103,8 +103,9 @@ Backend/
 5. Start the backend (`npm run start:dev`).
 6. Select the **App** run configuration → ▶ Run.
 
-Flow: **Station code** (`ALNOUR`) → **Sign in** (`karim.adel` + seed password) → **Home** shows
-*API: Connected* and *Supabase DB: Connected*. Tap **EN / عربي** to switch language — the layout mirrors to RTL.
+Flow: **Station code** (`ALNOUR`) → **Sign in** (`karim.adel` + seed password) → **Home** greets the
+signed-in user with the station name (that proves app → backend → Supabase works; server health is checked with
+`curl http://localhost:3000/v1/health`, never shown in the app). Tap **EN / عربي** to switch language — the layout mirrors to RTL.
 
 ### How the app reaches the backend
 | Where the app runs | BASE_URL | Set in |

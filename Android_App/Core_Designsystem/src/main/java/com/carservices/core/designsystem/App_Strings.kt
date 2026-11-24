@@ -45,6 +45,9 @@ object AppStrings {
         "scan_plate" to "Scan plate",
         "sign_out" to "Sign out",
         "roles" to "Roles",
+        "not_checked_in" to "Not checked in yet",
+        "check_in_hint" to "Check in with your face at the station to start your shift.",
+        "check_in" to "Check in",
         "error_network" to "Cannot reach the server. Check Wi-Fi and that the backend is running.",
     )
     private val ar = mapOf(
@@ -73,6 +76,9 @@ object AppStrings {
         "scan_plate" to "مسح اللوحة",
         "sign_out" to "تسجيل الخروج",
         "roles" to "الأدوار",
+        "not_checked_in" to "لم تسجّل الحضور بعد",
+        "check_in_hint" to "سجّل حضورك بالوجه في المحطة لبدء ورديتك.",
+        "check_in" to "تسجيل الحضور",
         "error_network" to "تعذّر الوصول إلى الخادم. تحقق من الشبكة وتشغيل الخادم.",
     )
 
@@ -84,3 +90,8 @@ object AppStrings {
 @Composable
 @ReadOnlyComposable
 fun tr(key: String): String = AppStrings.get(key, LocalAppLanguage.current)
+
+/** Inline bilingual text for UI screens: `l("Orders", "الطلبات")`. */
+@Composable
+@ReadOnlyComposable
+fun l(en: String, ar: String): String = if (LocalAppLanguage.current == AppLanguage.Arabic) ar else en

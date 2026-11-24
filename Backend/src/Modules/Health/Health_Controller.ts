@@ -1,3 +1,4 @@
+import { Public } from '../../Common/Auth/Access_Decorators';
 import { Controller, Get, HttpCode } from '@nestjs/common';
 import { Db_Client } from '../../Common/Database/Db_Client';
 
@@ -6,7 +7,7 @@ export class Health_Controller {
   constructor(private readonly db: Db_Client) {}
 
   /** GET /v1/health - used by the apps on start and by uptime checks. */
-  @Get()
+  @Get() @Public()
   @HttpCode(200)
   async health(): Promise<{ status: string; db: string; time: string }> {
     let db = 'up';

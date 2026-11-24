@@ -16,7 +16,10 @@ JOIN pg_namespace n ON n.oid = c.relnamespace AND n.nspname = 'app'
 WHERE c.relkind = 'r'
   AND EXISTS (SELECT 1 FROM information_schema.columns col
               WHERE col.table_schema = 'app' AND col.table_name = c.relname AND col.column_name = 'tenant_id')
-  AND c.relname NOT IN ('tenant_usage')   -- platform metering table (platform role only)
+  -- Company (platform) tables only REFERENCE a station; they are protected by role grants instead:
+  -- app_rw has no access to them (checked below).
+  AND c.relname NOT IN ('tenant_usage', 'station_requests')
+  AND c.relname NOT LIKE 'platform\\_%'
 ORDER BY 1`;
 
 async function main(): Promise<void> {
@@ -32,6 +35,16 @@ async function main(): Promise<void> {
       console.error(`${bad.length} tenant table(s) missing RLS/FORCE/policy`);
       process.exit(1);
     }
+    // The station API role must never touch company (platform_*) data.
+    const leaks = await client.query(
+      `SELECT table_name, privilege_type FROM information_schema.role_table_grants
+        WHERE grantee = 'app_rw' AND table_schema = 'app' AND table_name LIKE 'platform\_%'`,
+    );
+    if (leaks.rows.length > 0) {
+      leaks.rows.forEach((r) => console.error(`FAIL app_rw has ${r.privilege_type} on ${r.table_name}`));
+      process.exit(1);
+    }
+    console.log('app_rw has no access to platform tables');
     console.log('RLS coverage OK');
   } finally {
     await client.end();

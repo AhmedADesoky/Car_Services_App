@@ -7,5 +7,6 @@ import { Auth_Service } from './Auth_Service';
   imports: [Devices_Module],
   controllers: [Auth_Controller],
   providers: [Auth_Service],
+  exports: [Auth_Service],
 })
 export class Auth_Module {}
