@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 
 /**
  * Outgoing messages (SMS / WhatsApp / email). Mostafa's module will add the real providers
- * (WhatsApp Cloud API per station, an Egyptian SMS gateway, email).
+ * (WhatsApp Cloud API per station, a Kuwaiti SMS gateway, email).
  * Until then the "console" provider prints the message in the backend log - DEVELOPMENT ONLY.
  */
 export interface Outgoing_Message {

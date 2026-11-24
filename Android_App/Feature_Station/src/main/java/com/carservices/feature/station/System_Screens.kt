@@ -109,8 +109,8 @@ fun ActivityScreen(nav: StationNav) {
     var filter by remember { mutableIntStateOf(0) }
     data class Entry(val en: String, val ar: String, val who: String, val time: String, val icon: androidx.compose.ui.graphics.vector.ImageVector)
     val entries = listOf(
-        Entry("Price changed: Oil change 800 → 850", "تغيير سعر: تغيير زيت ٨٠٠ ← ٨٥٠", "You", "10:42", Icons.Outlined.Edit),
-        Entry("Refund 400 EGP on #A-1031", "مرتجع ٤٠٠ ج.م على #A-1031", "Youssef N.", "10:15", Icons.AutoMirrored.Outlined.Undo),
+        Entry("Price changed: Oil change 12.000 → 12.500 KWD", "تغيير سعر: تغيير زيت ١٢٫٠٠٠ ← ١٢٫٥٠٠ د.ك", "You", "10:42", Icons.Outlined.Edit),
+        Entry("Refund 12.000 KWD on #A-1031", "مرتجع ١٢٫٠٠٠ د.ك على #A-1031", "Youssef N.", "10:15", Icons.AutoMirrored.Outlined.Undo),
         Entry("Worker suspended: Ahmed Reda", "إيقاف عامل: أحمد رضا", "You", "09:30", Icons.Outlined.People),
         Entry("Sign in from new phone", "دخول من هاتف جديد", "Karim A.", "08:51", Icons.Outlined.Login),
         Entry("Face re-enrolled", "إعادة تسجيل وجه", "Omar F.", "Yesterday", Icons.Outlined.Face),
@@ -149,8 +149,8 @@ fun SettingsScreen(nav: StationNav) {
         item { SectionTitle(l("Connections", "الاتصالات")) }
         item {
             GlassCard(padding = 8.dp) {
-                CarRow("WhatsApp Business", "+20 2 2401 0000", icon = Icons.AutoMirrored.Outlined.Chat) { StatusPill(l("Connected", "متصل"), CarColors.Teal) }
-                CarRow(l("Card terminal", "ماكينة الدفع"), l("Manual reference", "مرجع يدوي"), icon = Icons.Outlined.CreditCard) { StatusPill(l("Manual", "يدوي"), CarColors.Amber) }
+                CarRow("WhatsApp Business", "+965 2245 1234", icon = Icons.AutoMirrored.Outlined.Chat) { StatusPill(l("Connected", "متصل"), CarColors.Teal) }
+                CarRow(l("KNET terminal", "جهاز كي نت"), l("Manual reference", "مرجع يدوي"), icon = Icons.Outlined.CreditCard) { StatusPill(l("Manual", "يدوي"), CarColors.Amber) }
             }
         }
         item { GlassCard(padding = 8.dp) { CarRow(Screen.Support.title(), l("Off", "متوقف"), icon = Icons.Outlined.SupportAgent, onClick = { nav.open(Screen.Support) }); CarRow(Screen.Offline.title(), l("All synced", "تمت المزامنة"), icon = Icons.Outlined.CloudDone, onClick = { nav.open(Screen.Offline) }) } }

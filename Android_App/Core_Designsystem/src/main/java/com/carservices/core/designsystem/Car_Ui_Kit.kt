@@ -474,20 +474,45 @@ fun StatTile(value: String, label: String, icon: ImageVector, modifier: Modifier
 
 /* -------------------------------------------------------------------------------------- plate */
 
-/** Egyptian private-car plate: light-blue band "مصر EGYPT" on top, Arabic digits | Arabic letters. */
+private const val ARABIC_DIGITS = "٠١٢٣٤٥٦٧٨٩"
+/** "34567" -> "٣٤٥٦٧" */
+fun toArabicDigits(latin: String): String = latin.map { c -> if (c in '0'..'9') ARABIC_DIGITS[c - '0'] else c }.joinToString("")
+
+/**
+ * Kuwaiti private-car plate: white plate, "الكويت / KUWAIT" strip with the flag colours on the left,
+ * then the code and the plate number - each in Arabic-Indic digits on top and English digits below.
+ */
 @Composable
-fun EgyptPlate(letters: String, digits: String, modifier: Modifier = Modifier, scale: Float = 1f, band: Color = Color(0xFF5BA4E6)) {
-    val shape = RoundedCornerShape((10 * scale).dp)
-    Column(modifier.width((210 * scale).dp).clip(shape).background(Color.White).border((2 * scale).dp, CarColors.NavyInk, shape)) {
-        Row(Modifier.fillMaxWidth().height((22 * scale).dp).background(band).padding(horizontal = (10 * scale).dp), verticalAlignment = Alignment.CenterVertically) {
-            Text("EGYPT", color = CarColors.NavyInk, fontSize = (10 * scale).sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-            Text("مصر", color = CarColors.NavyInk, fontSize = (12 * scale).sp, fontWeight = FontWeight.Bold)
+fun KuwaitPlate(code: String, number: String, modifier: Modifier = Modifier, scale: Float = 1f) {
+    val shape = RoundedCornerShape((9 * scale).dp)
+    Row(
+        modifier.width((210 * scale).dp).height((62 * scale).dp).clip(shape).background(Color.White).border((2 * scale).dp, CarColors.NavyInk, shape),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(
+            Modifier.fillMaxHeight().background(Color(0xFFEEF3F8)).padding(horizontal = (6 * scale).dp),
+            horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
+        ) {
+            Text("الكويت", color = CarColors.NavyInk, fontSize = (9 * scale).sp, fontWeight = FontWeight.Bold)
+            Text("KUWAIT", color = CarColors.NavyInk, fontSize = (7.5f * scale).sp, fontWeight = FontWeight.Bold, letterSpacing = (0.5f * scale).sp)
+            Row(Modifier.padding(top = (3 * scale).dp).width((30 * scale).dp).height((3 * scale).dp)) {
+                Box(Modifier.weight(1f).fillMaxHeight().background(Color(0xFF007A3D)))
+                Box(Modifier.weight(1f).fillMaxHeight().background(Color.White))
+                Box(Modifier.weight(1f).fillMaxHeight().background(Color(0xFFCE1126)))
+                Box(Modifier.width((3 * scale).dp).fillMaxHeight().background(Color.Black))
+            }
         }
-        Row(Modifier.fillMaxWidth().height((50 * scale).dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(digits, textAlign = TextAlign.Center, color = CarColors.NavyInk, fontSize = (24 * scale).sp, fontWeight = FontWeight.Black, modifier = Modifier.weight(1f))
-            Box(Modifier.width((2 * scale).dp).fillMaxHeight(0.8f).background(CarColors.NavyInk))
-            Text(letters, textAlign = TextAlign.Center, color = CarColors.NavyInk, fontSize = (24 * scale).sp, fontWeight = FontWeight.Black, modifier = Modifier.weight(1f))
-        }
+        PlateCell(code, scale, Modifier.padding(horizontal = (8 * scale).dp))
+        Box(Modifier.width((2 * scale).dp).fillMaxHeight(0.78f).background(CarColors.NavyInk.copy(alpha = 0.85f)))
+        PlateCell(number, scale, Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun PlateCell(digits: String, scale: Float, modifier: Modifier) {
+    Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(toArabicDigits(digits), color = CarColors.NavyInk, fontSize = (21 * scale).sp, fontWeight = FontWeight.Black, lineHeight = (22 * scale).sp)
+        Text(digits, color = CarColors.NavyInk, fontSize = (13 * scale).sp, fontWeight = FontWeight.Bold, letterSpacing = (1.2f * scale).sp, lineHeight = (14 * scale).sp)
     }
 }
 

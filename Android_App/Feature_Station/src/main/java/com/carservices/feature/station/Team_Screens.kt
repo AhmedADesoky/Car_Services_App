@@ -105,7 +105,7 @@ fun AddWorkerScreen(nav: StationNav) {
     var step by remember { mutableIntStateOf(0) }
     val titles = listOf(l("Personal", "بيانات شخصية"), l("Job & branch", "الوظيفة والفرع"), l("Account & role", "الحساب والدور"), l("Schedule", "المواعيد"), l("Review", "مراجعة"))
     var name by remember { mutableStateOf("") }
-    var branch by remember { mutableStateOf<String?>("Nasr City") }
+    var branch by remember { mutableStateOf<String?>("Shuwaikh") }
     var role by remember { mutableStateOf<String?>("Mechanic") }
     var accessRole by remember { mutableStateOf<String?>("Worker") }
     CarPage(title = Screen.W2.title(), subtitle = "${step + 1}/5 · ${titles[step]}", onBack = { if (step > 0) step-- else nav.back() },
@@ -117,12 +117,12 @@ fun AddWorkerScreen(nav: StationNav) {
                     when (s) {
                         0 -> {
                             SoftField(l("Full name", "الاسم بالكامل"), name, { name = it }, icon = Icons.Outlined.Person)
-                            SoftField(l("Mobile", "الموبايل"), "", {}, icon = Icons.Outlined.Phone, placeholder = "+20 1xx xxx xxxx")
+                            SoftField(l("Mobile", "الهاتف"), "", {}, icon = Icons.Outlined.Phone, placeholder = "+965 xxxx xxxx")
                             SoftField(l("National ID (owner only)", "الرقم القومي (للمالك فقط)"), "", {}, icon = Icons.Outlined.Badge, placeholder = "•••• •••• •••• ••")
                         }
                         1 -> {
                             CarDropdown(l("Job", "الوظيفة"), listOf("Mechanic", "Electrician", "Washer", "Tyres", "Cashier", "Branch manager"), role, { role = it }, { it }, icon = Icons.Outlined.Work)
-                            CarDropdown(l("Branch", "الفرع"), listOf("Nasr City", "Heliopolis"), branch, { branch = it }, { it }, icon = Icons.Outlined.Storefront, hint = { l("Geofence 100 m", "نطاق ١٠٠ م") })
+                            CarDropdown(l("Branch", "الفرع"), listOf("Shuwaikh", "Salmiya"), branch, { branch = it }, { it }, icon = Icons.Outlined.Storefront, hint = { l("Check-in area 100 m", "نطاق الحضور ١٠٠ م") })
                             SoftField(l("Start date", "تاريخ البدء"), "1 Dec 2026", {}, icon = Icons.Outlined.CalendarMonth)
                         }
                         2 -> {
@@ -241,7 +241,7 @@ fun AccountSecurityScreen(nav: StationNav) {
         item { SectionTitle(l("Signed-in devices", "الأجهزة المسجلة")) }
         item {
             GlassCard(padding = 8.dp) {
-                CarRow("Samsung Galaxy A54", l("Active now · Nasr City", "نشط الآن · مدينة نصر"), icon = Icons.Outlined.PhoneAndroid) { StatusPill(l("This branch", "هذا الفرع"), CarColors.Teal) }
+                CarRow("Samsung Galaxy A54", l("Active now · Shuwaikh", "نشط الآن · الشويخ"), icon = Icons.Outlined.PhoneAndroid) { StatusPill(l("This branch", "هذا الفرع"), CarColors.Teal) }
                 CarRow("Xiaomi Redmi 12", l("3 days ago", "منذ ٣ أيام"), icon = Icons.Outlined.PhoneAndroid) { Icon(Icons.AutoMirrored.Outlined.Logout, l("Sign out", "خروج"), tint = CarColors.Orange) }
             }
         }

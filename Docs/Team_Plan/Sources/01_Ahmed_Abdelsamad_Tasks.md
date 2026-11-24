@@ -151,7 +151,7 @@ REVOKE UPDATE, DELETE ON app.audit_logs FROM app_rw;
 1. `SELECT last_seq, last_hash FROM audit_chain_heads WHERE tenant_id=$1 FOR UPDATE` (insert head with `'GENESIS'` if missing) — this serialises the chain per tenant only.
 2. `hash = sha256(prev_hash + canonicalJson({seq, actor, action, entity, entity_id, before, after, at}))`.
 3. Insert row + update head. If the business transaction rolls back, the audit row disappears too (correct).
-4. **Redact** before storing: never store password hashes, OTPs, tokens, embeddings, full card refs; phone numbers stored masked (`+20 10x xxx 1234`).
+4. **Redact** before storing: never store password hashes, OTPs, tokens, embeddings, full card refs; phone numbers stored masked (`+965 9xxx 1234`).
 5. `GET /v1/audit-logs?entity=&actor=&from=&to=&cursor=` (`audit.view`, accountant sees finance entities only); `GET /v1/audit-logs/verify` recomputes the chain and returns the first broken `seq` (nightly job too).
 
 ---

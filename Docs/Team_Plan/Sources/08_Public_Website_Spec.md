@@ -28,7 +28,7 @@ Visitor ──► Web_Public (Next.js 15, static pages for /ar and /en, port 300
 |---|---|---|
 | Header | logo, anchors, language switch, CTA | slides in; turns from transparent to frosted white after 40 px scroll; mobile full-screen menu with staggered links |
 | Hero (navy) | headline, text, two CTAs, three chips | headline lines rise from a mask; glow blobs breathe; parallax fade on scroll |
-| Hero visual | an Egyptian plate in a scanner frame | beam sweeps, characters "decode" from noise into `ق ص ر ١٤٢٧`, check pops, an order card springs in with a live timer; loops; static final state under reduced motion |
+| Hero visual | a Kuwaiti plate in a scanner frame | beam sweeps, digits "decode" from noise into `١٢ / ٣٤٥٦٧` + `12 / 34567`, check pops, an order card springs in with a live timer; loops; static final state under reduced motion |
 | How a car moves | 4 steps: scan → order → checkout → WhatsApp | **scroll-driven**: a sticky phone mock-up changes screen as each step becomes active; step dots; on phones each step shows its own screen |
 | Features | 8 cards (plate AI, face check-in, 2D car map, WhatsApp receipts, workers & roles, dashboards, offline, Excel) | staggered reveal; a spotlight follows the cursor; icon tilts on hover |
 | Privacy (dark) | "Your station is a vault": 7 walls listed | 7 concentric walls draw themselves from outside in; core check pops; radar pulse |
@@ -51,7 +51,7 @@ Typography: Space Grotesk (Latin display), Inter (Latin body), **Noto Kufi Arabi
 ### POST `/v1/public/station-requests` → 202
 ```json
 { "planCode": "pro", "businessName": "Nile Auto Care", "businessNameAr": "نايل لخدمة السيارات",
-  "contactName": "Mona", "contactPhone": "+20 100 000 0000", "contactEmail": "", "city": "Giza",
+  "contactName": "Mona", "contactPhone": "+965 9000 0000", "contactEmail": "", "city": "Hawalli",
   "branchesCount": 2, "workersCount": 12, "message": "", "locale": "ar", "website": "" }
 ```
 Rules: strict schema (unknown fields rejected), phone `^\+?[0-9 ]{8,20}$`, `website` is a **honeypot** (bots fill it; the API then answers 202 and stores nothing), 3 requests / 10 min / IP → 429.
@@ -65,13 +65,13 @@ Token = `base64url(stationId) + "." + 32 random bytes`. Returns `{stationName, s
 ## 6. Functional requirements
 | ID | Requirement | Status |
 |---|---|---|
-| WEB-01 | Arabic (default for Egypt) and English, full RTL, language remembered | [DONE] |
+| WEB-01 | Arabic (default for Kuwait) and English, full RTL, language remembered | [DONE] |
 | WEB-02 | Sections: hero, how it works, features, privacy, plans, request form, FAQ, footer | [DONE] |
 | WEB-03 | Request form: 3 steps, validation, plan preselect from plan cards, success state | [DONE] |
 | WEB-04 | Requests appear immediately in the Admin Console inbox | [DONE] (verified) |
 | WEB-05 | Owner activation page with password rules + strength meter, station code shown after success | [DONE] (verified) |
 | WEB-06 | Token removed from the address bar after reading; page not indexed; no Referer leakage | [DONE] |
-| WEB-07 | Legal pages: privacy notice (PDPL 151/2020), terms, cookie notice if analytics are added | [TODO] owner + lawyer text |
+| WEB-07 | Legal pages: privacy notice (Kuwait CITRA data privacy regulation), terms, cookie notice if analytics are added | [TODO] owner + lawyer text |
 | WEB-08 | Real screenshots / short screen recordings of the apps instead of the illustrative mock-ups | [TODO] when apps are ready |
 | WEB-09 | Contact by WhatsApp click-to-chat button (company number) | [TODO] |
 | WEB-10 | Optional CAPTCHA (privacy-friendly, e.g. Cloudflare Turnstile) if spam passes the honeypot + rate limit | [TODO] only if needed |

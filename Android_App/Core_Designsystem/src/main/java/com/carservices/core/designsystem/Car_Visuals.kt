@@ -128,7 +128,7 @@ private fun NavTab(item: NavItem, active: Boolean, onClick: () -> Unit) {
     }
 }
 
-/** Centre scanner tab: line-art Egyptian plate inside a gradient hairline ring. Static; one laser sweep on tap. */
+/** Centre scanner tab: line-art licence plate inside a gradient hairline ring. Static; one laser sweep on tap. */
 @Composable
 private fun ScanTab(label: String, onClick: () -> Unit) {
     val scope = rememberCoroutineScope()
@@ -161,7 +161,7 @@ private fun ScanTab(label: String, onClick: () -> Unit) {
             drawRoundRect(CarColors.Navy, Offset(pl, pt), Size(pw, ph), CornerRadius(2.5.dp.toPx()), style = Stroke(stroke))
             val bandY = pt + ph * 0.32f
             drawLine(CarColors.Teal, Offset(pl + stroke, bandY), Offset(pl + pw - stroke, bandY), stroke)        // coloured band edge
-            drawLine(CarColors.Navy, Offset(c.x, bandY + 2.dp.toPx()), Offset(c.x, pt + ph - 2.dp.toPx()), stroke * 0.85f)  // digits | letters
+            drawLine(CarColors.Navy, Offset(c.x, bandY + 2.dp.toPx()), Offset(c.x, pt + ph - 2.dp.toPx()), stroke * 0.85f)  // code | number
             val midY = bandY + (pt + ph - bandY) / 2
             listOf(-1f, 1f).forEach { side ->
                 val cx = c.x + side * pw * 0.25f

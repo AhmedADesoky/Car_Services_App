@@ -25,7 +25,7 @@
 |---|---|---|
 | Run ONNX inside the NestJS API process | No | inference is CPU-bound and blocks Node's single event loop → every station's API slows (noisy neighbour, SCL-04); pre-processing would be re-written in TypeScript and drift from training; a model crash or memory spike takes down the whole API; cannot scale AI separately |
 | Let the apps call an AI API directly | No | the backend must stay the only gate that checks the tenant from the JWT, permissions, quotas, audit; an exposed AI endpoint could be abused to query other stations' models |
-| Third-party AI cloud API for faces | No | biometric data = sensitive data under Egypt's PDPL 151/2020; no control over residency / retention / tenant isolation; per-call cost |
+| Third-party AI cloud API for faces | No | biometric data = sensitive personal data under Kuwait's CITRA Data Privacy Protection Regulation (verify the current version with legal counsel); no control over residency / retention / tenant isolation; per-call cost |
 | **Internal Inference Service + on-device first pass** | **Yes** | same Python code as training; independent scaling; failure isolation with graceful fallback (manual plate entry, manager-approved check-in); server re-checks face + liveness so a hacked phone cannot fake check-in |
 
 ### 1.3 Where each model runs
@@ -59,28 +59,28 @@ The verifier rejects a package whose signature or any file hash does not match.
 ### Most robust architecture
 | Stage | Model | Why |
 |---|---|---|
-| Detection | **YOLO11n** (640 px, 5 classes = plate colour band) | best accuracy/latency for phones; exports to TFLite int8 / Core ML / ONNX. Licence AGPL-3.0 → buy the Ultralytics licence for a closed commercial app, or use **YOLOX-Tiny (Apache-2.0)** with the same pipeline |
-| Recognition (device) | **CRNN**: MobileNetV3-Small features → 2× BiLSTM(128) → CTC | tiny (≈1.5 M params, ≈4 MB int8), no fixed text length, robust to spacing |
+| Detection | **YOLO11n-pose** (640 px, 5 plate types + 4 corner keypoints → warp to the canonical Kuwaiti layout) | best accuracy/latency for phones; exports to TFLite int8 / Core ML / ONNX. Licence AGPL-3.0 → buy the Ultralytics licence for a closed commercial app, or use **YOLOX-Tiny (Apache-2.0)** with the same pipeline |
+| Recognition (device) | **CRNN** on 4 cells (code/number × Arabic/English digits): MobileNetV3-Small → 2× BiLSTM(96) → CTC over ٠-٩ + 0-9 | tiny (≈1 M params, ≈3 MB int8); digits only |
 | Recognition (server) | **PARSeq** (permuted autoregressive ViT, Apache-2.0) | state-of-the-art scene-text accuracy on blur/dirt/angles; only for low-confidence crops |
-| Post-processing | best-3 sharpest crops + vote + `Plate_Normalizer` | removes single-frame errors |
+| Post-processing | **Arabic/English row cross-check** per cell + best-3 frame vote + `Plate_Normalizer` (`12-34567`) | two independent readings of every value: disagreement → fallback |
 
 ### Data (best available, in priority order)
-1. **EALPR** — Egyptian ALPR dataset (~2.4 k images with plate and character boxes).
-2. Kaggle Egyptian licence-plate sets (verify licence of each).
+1. **Kuwaiti pilot-station capture** (owner's written consent): 3–5 k frames from real bays, day / night / summer glare, labelled with box + 4 corners + `CODE-NUMBER` in **CVAT** or **Label Studio**.
+2. Public Kuwait / GCC plate sets on Kaggle / Roboflow Universe (verify the licence of each).
 3. **Open Images v7 – "Vehicle registration plate"** (CC-BY 4.0) — thousands of plates worldwide, to pre-train the detector.
-4. **Synthetic Egyptian plates (100 k+)** from notebook 02: real fonts (OFL), colour bands per type, perspective, motion blur, night, rain, glare, dirt, JPEG artefacts — fixes rare types and night images.
-5. **Own field data** from the pilot station (with the owner's written consent): 2–3 k images, labelled in **CVAT** or **Label Studio**.
+4. **Synthetic Kuwaiti plates (100 k+)** from notebook 02: the canonical layout (strip + code + number, Arabic and English rows), OFL fonts, colours per type, perspective, motion blur, night, rain, glare, dirt, JPEG artefacts — fixes rare types and night images.
+5. More field data from each new station (corrections flow), always inside that station's storage prefix.
 6. Per-station corrected scans (only for that station's fine-tune).
-Split by **plate text** (`stable_split`) — the same car never appears in train and test.
+Split by **plate key** (`stable_split`) — the same car never appears in train and test.
 
 ### Notebook steps
 | Notebook | Do | Done when |
 |---|---|---|
-| 01_Plate_Dataset_Preparation | download, write one adapter per source → YOLO format + `plates.yaml`; crop recognition set | counts per split printed; no plate text in two splits |
-| 02_Plate_Synthetic_Generator | fonts in `Data/Plates/Fonts`, render 100 k | visual check of 50 random samples |
-| 03_Plate_Detector_Training | YOLO11n 150 epochs, AdamW lr 0.002, cosine, mosaic, hsv_v 0.5 | test mAP50 ≥ 0.97 |
-| 04_Plate_Recognizer_Training | CRNN-CTC 60 epochs OneCycle 1e-3, real+synthetic 1:1 then real-only; PARSeq-tiny fine-tune 40 epochs | val exact-match ≥ 95 % (day) |
-| 05_Plate_Pipeline_Evaluation | end-to-end on recorded sequences: exact match day/night, CER, latency, fallback rate | targets met on the pilot set |
+| 01_Plate_Dataset_Preparation | one adapter per source → YOLO-pose labels (box + 4 corners) + `plates.yaml`; warp + cut the 4 cells | counts per split printed; no plate text in two splits |
+| 02_Plate_Synthetic_Generator | Arabic + Latin OFL fonts in `Data/Plates/Fonts`, render 100 k cells + detector scenes | visual check of 50 random samples |
+| 03_Plate_Detector_Training | YOLO11n-pose 150 epochs, AdamW lr 0.002, cosine, no flips, hsv_v 0.5 | test box mAP50 ≥ 0.97, corner error ≤ 3 % |
+| 04_Plate_Recognizer_Training | cell CRNN-CTC 60 epochs OneCycle 1e-3, real+synthetic 1:1 then real-only; PARSeq-tiny (digits charset) 30 epochs | val exact-match ≥ 95 % (day) |
+| 05_Plate_Pipeline_Evaluation | end-to-end on recorded sequences: exact match day/night/glare, row-agreement rate, latency, fallback rate | targets met on the pilot set |
 | 06_Plate_Model_Export | ONNX + TFLite int8 + Core ML, `Model_Card.json`, package + sign | sizes < 15 MB; Android/iOS benchmark < 1.5 s |
 | 07_Plate_Station_Fine_Tuning | ≥ 300 corrected samples, 15 epochs lr 2e-4, freeze backbone 3 epochs, promotion rule | `Promotion.json` written |
 
@@ -172,12 +172,12 @@ Rule (AI-06): station data is never used for base models unless the owner signs 
 - Consent forms for workers (face) and for attack-data volunteers before any capture; store the signed consent id with every template / sample.
 - No raw face images kept after enrollment; inference logs store confidence and timing only.
 - Datasets and weights are git-ignored; store them on the team drive / Kaggle datasets with restricted access.
-- Legal review of PDPL 151/2020 duties (licensing / registration for biometric processing) — owner action.
+- Legal review of Kuwait data-privacy duties (CITRA Data Privacy Protection Regulation; biometric processing, retention, cross-border transfer) — owner action with a Kuwaiti lawyer.
 
 ## 7. Timeline (AI track)
 | Weeks | Abdelrahman (plate + face) | Omar (liveness + MLOps) |
 |---|---|---|
-| 0–3 | licences, EALPR + Open Images, synthetic generator, labelling setup | consent protocol, attack-capture plan, package format + signing key ceremony |
+| 0–3 | confirm Kuwaiti plate types with MOI rules, pilot capture plan + consent, Open Images, synthetic generator, labelling setup | consent protocol, attack-capture plan, package format + signing key ceremony |
 | 3–8 | detector v0, CRNN v0; face baseline (CASIA) | passive v0 (MiniFASNet), active prompt thresholds |
 | 8–12 | plate v1 ≥ 90 %, LiteRT export, Android benchmark; WebFace4M training | liveness v1, Core ML conversion of all three models, iOS benchmark |
 | 12–19 | pilot field data → plate v1.1 ≥ 95 %; MobileFaceNet distillation; thresholds | ViT-S server model; attack testing; inference service models loaded |
@@ -187,7 +187,7 @@ Rule (AI-06): station data is never used for base models unless the owner signs 
 ## 8. Risks
 | Risk | Mitigation |
 |---|---|
-| Too few real Egyptian plates (night, taxi, transport) | synthetic generator + pilot capture campaign + per-station fine-tune |
+| Too few real Kuwaiti plates (no public dataset; night, taxi, commercial) | synthetic generator + pilot capture campaign + per-station fine-tune |
 | Licence of face datasets for commercial use | decide licensed data / SDK before launch (owner) |
 | Domain shift between phones / lighting | per-station thresholds, DINOv2 server model, field data |
 | Phone vs server embedding mismatch | distillation + parity test in notebook 06; templates tied to `model_version` and regenerated on change |

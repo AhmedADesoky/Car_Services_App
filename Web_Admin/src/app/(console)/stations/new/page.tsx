@@ -94,7 +94,7 @@ function NewStation() {
                 <input className="field font-mono uppercase" value={form.stationCode} onChange={(e) => set('stationCode', e.target.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 12))} /></Field>
               <Field label="Tax registration no. (optional)"><input className="field" value={form.taxRegNo} onChange={(e) => set('taxRegNo', e.target.value)} /></Field>
               <Field label="Business contact name"><input className="field" value={form.contactName} onChange={(e) => set('contactName', e.target.value)} /></Field>
-              <Field label="Business contact phone"><input className="field" inputMode="tel" placeholder="+20 1xx xxx xxxx" value={form.contactPhone} onChange={(e) => set('contactPhone', e.target.value)} /></Field>
+              <Field label="Business contact phone"><input className="field" inputMode="tel" placeholder="+965 xxxx xxxx" value={form.contactPhone} onChange={(e) => set('contactPhone', e.target.value)} /></Field>
               <Field label="Business email (optional)"><input className="field" type="email" value={form.contactEmail} onChange={(e) => set('contactEmail', e.target.value)} /></Field>
               <Field label="Default language">
                 <Fancy_Select theme="dark" value={form.defaultLocale} onChange={(v) => set('defaultLocale', v as Form['defaultLocale'])} options={[{ value: 'ar', label: 'Arabic' }, { value: 'en', label: 'English' }]} /></Field>
@@ -103,7 +103,7 @@ function NewStation() {
               <Field label="Owner full name"><input className="field" value={form.ownerName} onChange={(e) => set('ownerName', e.target.value)} /></Field>
               <Field label="Owner username" hint="Lowercase. The owner signs in with station code + this username.">
                 <input className="field font-mono" value={form.ownerUsername} onChange={(e) => set('ownerUsername', e.target.value.toLowerCase())} /></Field>
-              <Field label="Owner mobile (receives the activation link)"><input className="field" inputMode="tel" placeholder="+20 1xx xxx xxxx" value={form.ownerPhone} onChange={(e) => set('ownerPhone', e.target.value)} /></Field>
+              <Field label="Owner mobile (receives the activation link)"><input className="field" inputMode="tel" placeholder="+965 xxxx xxxx" value={form.ownerPhone} onChange={(e) => set('ownerPhone', e.target.value)} /></Field>
               <div className="rounded-xl border border-glow/25 bg-glow/5 p-4 text-sm text-fog md:col-span-2">
                 No password is created here. The owner receives a <b className="text-white">one-time activation link (48 h)</b> and chooses their own password; nobody at the company ever knows it.
               </div>

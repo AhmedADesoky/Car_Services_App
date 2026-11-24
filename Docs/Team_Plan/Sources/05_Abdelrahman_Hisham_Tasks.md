@@ -40,7 +40,7 @@ interface LivenessEngine {
     fun activeChallenge(prompts: List<String>): Flow<ChallengeState>        // blink / turn / smile
 }
 ```
-- `Fake_Plate_Reader` (returns `ق ص ر ١٤٢٧` after 600 ms), `Fake_Face_Engine`, `Fake_Liveness_Engine` — **debug builds only** (put them in `src/debug/`, so release can never ship them).
+- `Fake_Plate_Reader` (returns `12-34567` after 600 ms), `Fake_Face_Engine`, `Fake_Liveness_Engine` — **debug builds only** (put them in `src/debug/`, so release can never ship them).
 - `Plate_Normalizer.kt`: port of `AI_Models/Common_Utils/Plate_Normalizer.py` with the **same unit-test vectors** (keep both in sync; the backend has a TypeScript port too).
 
 ### Model package loader (AI-05)
@@ -55,7 +55,7 @@ interface LivenessEngine {
 ## 2. Screen 07 — Scan plate (VEH-01..04, PERF-02 < 1.5 s)
 1. CameraX `Preview` + `ImageAnalysis` (720p, `STRATEGY_KEEP_ONLY_LATEST`), torch toggle, scan-line animation from the design (respect reduced motion).
 2. Sample a frame every **150 ms** → `PlateReader.read` → keep the 3 sharpest crops (Laplacian variance) of the same plate → majority vote on `normalized`.
-3. Confidence ≥ 0.85 → show the result card (plate chip with EGYPT/مصر band) for confirmation. Below 0.85 → upload the best crop to `POST /v1/plates/recognize` (Mostafa) with a 2 s timeout → show the server result. If it is still low, or the AI service is down (`AI_UNAVAILABLE`), open **manual entry** with the Egyptian plate keyboard (17 letters + Arabic-Indic digits). REL-04: scanning must never block creating an order.
+3. Confidence ≥ 0.85 → show the result card (Kuwaiti plate chip; Arabic and English rows must agree) for confirmation. Below 0.85 → upload the best crop to `POST /v1/plates/recognize` (Mostafa) with a 2 s timeout → show the server result. If it is still low, or the AI service is down (`AI_UNAVAILABLE`), open **manual entry** with the Egyptian plate keyboard (17 letters + Arabic-Indic digits). REL-04: scanning must never block creating an order.
 4. On confirm: `POST /v1/plates/scans {predictedText, finalText, confidence, modelVersion, ranOn}`; if the worker corrected the text → also upload the crop through the signed URL (`/v1/uploads/plate-image`) so it can become a training sample for **this station only**.
 5. Then navigate: known plate → screen 09 (Mongi), new plate → 08 (Mongi) with the plate prefilled. Hand over to Mongi's screens through a navigation contract (`ScanResult(plateText, plateScanId, vehicleId?)`).
 6. Camera permission flow with rationale; images are never saved to the gallery.

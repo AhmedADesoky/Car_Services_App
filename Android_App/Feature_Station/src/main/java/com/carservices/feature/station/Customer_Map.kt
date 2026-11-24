@@ -47,7 +47,7 @@ import com.carservices.core.designsystem.Avatar
 import com.carservices.core.designsystem.CarColors
 import com.carservices.core.designsystem.CarPage
 import com.carservices.core.designsystem.CarRow
-import com.carservices.core.designsystem.EgyptPlate
+import com.carservices.core.designsystem.KuwaitPlate
 import com.carservices.core.designsystem.GlassCard
 import com.carservices.core.designsystem.GlassIconButton
 import com.carservices.core.designsystem.KeyValue
@@ -67,14 +67,14 @@ private data class CarPart(val en: String, val ar: String, val box: Rect, val st
 private val parts = listOf(
     CarPart("Front bumper", "الصدام الأمامي", Rect(0.22f, 0.02f, 0.78f, 0.09f), PartState.Ok, "", ""),
     CarPart("Hood / engine", "الكبوت / المحرك", Rect(0.24f, 0.10f, 0.76f, 0.30f), PartState.Repaired, "Oil change + filter · 12 Oct", "تغيير زيت + فلتر · ١٢ أكتوبر"),
-    CarPart("Front-left wheel", "العجلة الأمامية اليسرى", Rect(0.06f, 0.14f, 0.20f, 0.28f), PartState.Replaced, "Front brake pads · 3 Aug", "تيل فرامل أمامي · ٣ أغسطس"),
-    CarPart("Front-right wheel", "العجلة الأمامية اليمنى", Rect(0.80f, 0.14f, 0.94f, 0.28f), PartState.Replaced, "Front brake pads · 3 Aug", "تيل فرامل أمامي · ٣ أغسطس"),
+    CarPart("Front-left wheel", "العجلة الأمامية اليسرى", Rect(0.06f, 0.14f, 0.20f, 0.28f), PartState.Replaced, "Front brake pads · 3 Aug", "فحمات فرامل أمامية · ٣ أغسطس"),
+    CarPart("Front-right wheel", "العجلة الأمامية اليمنى", Rect(0.80f, 0.14f, 0.94f, 0.28f), PartState.Replaced, "Front brake pads · 3 Aug", "فحمات فرامل أمامية · ٣ أغسطس"),
     CarPart("Windscreen", "الزجاج الأمامي", Rect(0.27f, 0.31f, 0.73f, 0.39f), PartState.Ok, "", ""),
     CarPart("Left doors", "الأبواب اليسرى", Rect(0.20f, 0.40f, 0.28f, 0.70f), PartState.Ok, "", ""),
     CarPart("Cabin / AC", "المقصورة / التكييف", Rect(0.29f, 0.40f, 0.71f, 0.70f), PartState.Repaired, "AC recharge · 19 Jun", "شحن تكييف · ١٩ يونيو"),
     CarPart("Right doors", "الأبواب اليمنى", Rect(0.72f, 0.40f, 0.80f, 0.70f), PartState.Ok, "", ""),
-    CarPart("Rear-left wheel", "العجلة الخلفية اليسرى", Rect(0.06f, 0.70f, 0.20f, 0.84f), PartState.Attention, "Rear pads at 30% · check next visit", "التيل الخلفي ٣٠٪ · افحص الزيارة القادمة"),
-    CarPart("Rear-right wheel", "العجلة الخلفية اليمنى", Rect(0.80f, 0.70f, 0.94f, 0.84f), PartState.Attention, "Rear pads at 30% · check next visit", "التيل الخلفي ٣٠٪ · افحص الزيارة القادمة"),
+    CarPart("Rear-left wheel", "العجلة الخلفية اليسرى", Rect(0.06f, 0.70f, 0.20f, 0.84f), PartState.Attention, "Rear pads at 30% · check next visit", "الفحمات الخلفية ٣٠٪ · افحص الزيارة القادمة"),
+    CarPart("Rear-right wheel", "العجلة الخلفية اليمنى", Rect(0.80f, 0.70f, 0.94f, 0.84f), PartState.Attention, "Rear pads at 30% · check next visit", "الفحمات الخلفية ٣٠٪ · افحص الزيارة القادمة"),
     CarPart("Trunk", "الشنطة", Rect(0.25f, 0.76f, 0.75f, 0.90f), PartState.Ok, "", ""),
     CarPart("Rear bumper", "الصدام الخلفي", Rect(0.22f, 0.91f, 0.78f, 0.98f), PartState.Replaced, "Bumper replaced · 2024", "تم استبدال الصدام · ٢٠٢٤"),
 )
@@ -85,24 +85,24 @@ private val parts = listOf(
 fun CustomerProfileScreen(nav: StationNav) {
     var car by remember { mutableIntStateOf(0) }
     var selected by remember { mutableStateOf(parts[8]) }
-    CarPage(title = "Mostafa Hamdy", subtitle = l("Customer since 2023", "عميل منذ ٢٠٢٣"), onBack = nav::back,
+    CarPage(title = "Abdullah Al-Mutairi", subtitle = l("Customer since 2023", "عميل منذ ٢٠٢٣"), onBack = nav::back,
         actions = { GlassIconButton(Icons.AutoMirrored.Outlined.Chat, "WhatsApp", {}); GlassIconButton(Icons.Outlined.Phone, l("Call", "اتصال"), {}) }) {
         item {
             GlassCard(padding = 14.dp) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Avatar("Mostafa Hamdy", size = 52.dp)
+                    Avatar("Abdullah Al-Mutairi", size = 52.dp)
                     Spacer(Modifier.width(12.dp))
-                    Column(Modifier.weight(1f)) { Text("+20 100 123 4567", color = CarColors.NavyInk, fontWeight = FontWeight.SemiBold); Text(l("14 visits · 18,450 EGP", "١٤ زيارة · ١٨٬٤٥٠ ج.م"), color = CarColors.TextSecondary, style = MaterialTheme.typography.bodyMedium) }
+                    Column(Modifier.weight(1f)) { Text("+965 9876 5432", color = CarColors.NavyInk, fontWeight = FontWeight.SemiBold); Text(l("14 visits · 552.500 KWD", "١٤ زيارة · ٥٥٢٫٥٠٠ د.ك"), color = CarColors.TextSecondary, style = MaterialTheme.typography.bodyMedium) }
                     StatusPill(l("WhatsApp on", "واتساب مفعّل"), CarColors.Teal)
                 }
             }
         }
-        item { PillTabs(listOf("Elantra · ق ر ب ٤٥٦٧", "Tucson · م ص ر ١٢٠"), car, { car = it }) }
+        item { PillTabs(listOf("Land Cruiser · 12 / 34567", "Patrol · 5 / 8812"), car, { car = it }) }
         item {
             GlassCard {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(l("Service map", "خريطة الخدمة"), style = MaterialTheme.typography.titleMedium, color = CarColors.NavyInk, modifier = Modifier.weight(1f))
-                    EgyptPlate("ق ر ب", "٤٥٦٧", scale = 0.42f)
+                    KuwaitPlate("12", "34567", scale = 0.42f)
                 }
                 Spacer(Modifier.height(8.dp))
                 CarMap(selected) { selected = it }
@@ -126,7 +126,7 @@ fun CustomerProfileScreen(nav: StationNav) {
             }
         }
         item { SectionTitle(l("Visits", "الزيارات"), action = l("History", "السجل")) { nav.open(Screen.History) } }
-        item { GlassCard { KeyValue(l("Last visit", "آخر زيارة"), l("Today", "اليوم")); KeyValue(l("Average bill", "متوسط الفاتورة"), money(1318)); KeyValue(l("Favourite service", "الخدمة المفضلة"), l("Oil change", "تغيير زيت")) } }
+        item { GlassCard { KeyValue(l("Last visit", "آخر زيارة"), l("Today", "اليوم")); KeyValue(l("Average bill", "متوسط الفاتورة"), money(41500)); KeyValue(l("Favourite service", "الخدمة المفضلة"), l("Oil change", "تغيير زيت")) } }
     }
 }
 

@@ -89,7 +89,7 @@ Pattern: `View → @Observable ViewModel → Use_Case → Repository → (API | 
 | S3, S4 | owner setup wizard; branches + **MapKit geofence editor** (circle radius 30–1000 m, or polygon) |
 | 19, 20, 21, S12 | worker account + location, services & prices (price history, effective dates), tax & role permissions, custom roles editor |
 | 22 Customer profile | header, vehicles tabs, **2D car service map** exactly like artboard 08: body outline by `bodyType`, tappable parts, colours repaired teal / replaced navy / attention orange pulsing, history sheet (`GET /vehicles/{id}/parts-map`) |
-| 08, 09, 10, 11, 12 | new car form (plate prefilled from scan, Egyptian plate preview), returning-car card + "View history", history newest first with follow-up banner, problem + pick repairs (price snapshot shown read-only), order in progress (items, assignees, finish item with fix text) |
+| 08, 09, 10, 11, 12 | new car form (plate prefilled from scan, Kuwaiti plate preview (code + number)), returning-car card + "View history", history newest first with follow-up banner, problem + pick repairs (price snapshot shown read-only), order in progress (items, assignees, finish item with fix text) |
 | 13, 14, 15 | checkout receipt preview, WhatsApp toggle (only if customer opted in) + Cash/Card/Split, paid confirmation with haptic success |
 | 16, 17, 18, 23, 24, S11 | owner dashboard, attendance board, employee performance, finance dashboard, payments & corrections, cash drawer close |
 | 25, 26, S5, S6, S7, S10 | Excel import/export (file importer, preview, confirm, undo), activity log, notifications, settings, subscription & usage, offline/sync status |
@@ -143,7 +143,7 @@ Consumer of `ReceiptIssued` (worker process, tenant context from the message): r
 - Same `Idempotency-Key` retried 5× → one payment row.
 - Overpayment, payment on `in_progress` order, refund > paid, payment from tenant B → 422 / 409 / 404.
 - Split cash + card sums exactly; rounding fixtures with Ahmed A.
-- Cash closure expected amount with refunds and time zone boundaries (23:59 Cairo).
+- Cash closure expected amount with refunds and time zone boundaries (23:59 Kuwait, Asia/Kuwait).
 
 ---
 

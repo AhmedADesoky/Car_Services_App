@@ -14,7 +14,7 @@
     "Db_Rls_Check": "ts-node Database/Scripts/Check_Rls_Coverage.ts",
     "test": "jest",
     "test:isolation": "jest Tests/Cross_Tenant",
-    "start:platform": "nest start --watch --entryFile Platform/Platform_Main",
+    "start:platform": "nest start --watch --entryFile Platform/Platform_Main --path tsconfig.platform.json",
     "start:platform:prod": "node dist/Platform/Platform_Main.js",
     "Platform_Create_Super_Admin": "ts-node Database/Scripts/Create_Super_Admin.ts"
   },

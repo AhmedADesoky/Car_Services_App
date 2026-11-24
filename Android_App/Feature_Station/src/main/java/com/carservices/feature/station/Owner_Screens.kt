@@ -79,7 +79,7 @@ fun DashboardScreen(nav: StationNav, userName: String, stationName: String, isRo
             NavyCard(onClick = { nav.open(Screen.Finance) }) {
                 Text(l("Revenue this week", "إيراد هذا الأسبوع"), color = CarColors.TealGlow, style = MaterialTheme.typography.labelMedium)
                 Row(verticalAlignment = Alignment.Bottom) {
-                    BigNumber(money(162_500), Color.White, 32)
+                    BigNumber(money(4_850_000), Color.White, 32)
                     Spacer(Modifier.width(10.dp))
                     Text("+12.4%", color = CarColors.Amber, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 6.dp))
                 }
@@ -90,7 +90,7 @@ fun DashboardScreen(nav: StationNav, userName: String, stationName: String, isRo
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 StatTile("128", l("Cars served", "سيارات"), Icons.Outlined.DirectionsCar, Modifier.weight(1f), delta = "+9%")
-                StatTile(money(1_270), l("Avg bill", "متوسط الفاتورة"), Icons.AutoMirrored.Outlined.ReceiptLong, Modifier.weight(1f), delta = "+4%")
+                StatTile(money(37_900), l("Avg bill", "متوسط الفاتورة"), Icons.AutoMirrored.Outlined.ReceiptLong, Modifier.weight(1f), delta = "+4%")
             }
         }
         item {
@@ -99,12 +99,12 @@ fun DashboardScreen(nav: StationNav, userName: String, stationName: String, isRo
                 StatTile("27 ${l("min", "د")}", l("Avg job time", "متوسط وقت العمل"), Icons.Outlined.Timer, Modifier.weight(1f), accent = CarColors.Amber, delta = "-3%")
             }
         }
-        item { CarDropdown(l("Branch", "الفرع"), listOf(l("All branches", "كل الفروع"), l("Nasr City", "مدينة نصر"), l("Heliopolis", "مصر الجديدة")), branch ?: l("All branches", "كل الفروع"), { branch = it }, { it }) }
+        item { CarDropdown(l("Branch", "الفرع"), listOf(l("All branches", "كل الفروع"), l("Shuwaikh", "الشويخ"), l("Salmiya", "السالمية")), branch ?: l("All branches", "كل الفروع"), { branch = it }, { it }) }
         item {
             GlassCard {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(l("Daily revenue", "الإيراد اليومي"), style = MaterialTheme.typography.titleMedium, color = CarColors.NavyInk, modifier = Modifier.weight(1f))
-                    Text(l("thousand EGP", "ألف ج.م"), style = MaterialTheme.typography.labelMedium, color = CarColors.TextSecondary)
+                    Text(l("hundred KWD", "مئة د.ك"), style = MaterialTheme.typography.labelMedium, color = CarColors.TextSecondary)
                 }
                 Spacer(Modifier.height(10.dp))
                 BarChart(Mock.weekRevenue, if (isAr()) Mock.weekDaysAr else Mock.weekDays, highlight = 5)
@@ -113,7 +113,7 @@ fun DashboardScreen(nav: StationNav, userName: String, stationName: String, isRo
         item { SectionTitle(l("Top services", "أكثر الخدمات")) }
         item {
             GlassCard {
-                listOf(Triple(l("Oil change", "تغيير زيت"), 0.82f, 46), Triple(l("Full wash", "غسيل كامل"), 0.64f, 38), Triple(l("Brake pads", "تيل فرامل"), 0.41f, 19), Triple(l("AC recharge", "شحن تكييف"), 0.27f, 11)).forEach { (name, p, n) ->
+                listOf(Triple(l("Oil change", "تغيير زيت"), 0.82f, 46), Triple(l("Full wash", "غسيل كامل"), 0.64f, 38), Triple(l("Brake pads", "فحمات فرامل"), 0.41f, 19), Triple(l("AC recharge", "شحن تكييف"), 0.27f, 11)).forEach { (name, p, n) ->
                     Row(Modifier.padding(vertical = 6.dp), verticalAlignment = Alignment.CenterVertically) {
                         Text(name, color = CarColors.NavyInk, modifier = Modifier.width(110.dp), maxLines = 1)
                         MeterBar(p, Modifier.weight(1f))
@@ -141,7 +141,7 @@ fun DashboardScreen(nav: StationNav, userName: String, stationName: String, isRo
 @Composable
 fun AttendanceBoardScreen(nav: StationNav) {
     var filter by remember { mutableIntStateOf(0) }
-    CarPage(title = Screen.Attendance.title(), subtitle = l("Today · Nasr City", "اليوم · مدينة نصر"), onBack = nav::back) {
+    CarPage(title = Screen.Attendance.title(), subtitle = l("Today · Shuwaikh", "اليوم · الشويخ"), onBack = nav::back) {
         item {
             GlassCard {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -197,15 +197,15 @@ fun FinanceScreen(nav: StationNav) {
         item {
             NavyCard {
                 Text(l("Net revenue", "صافي الإيراد"), color = CarColors.TealGlow, style = MaterialTheme.typography.labelMedium)
-                BigNumber(money(612_300), Color.White, 32)
+                BigNumber(money(18_400_000), Color.White, 32)
                 Spacer(Modifier.height(10.dp))
-                Row { FinanceMini(l("Cash", "نقدي"), money(381_000), Modifier.weight(1f)); FinanceMini(l("Card", "بطاقة"), money(231_300), Modifier.weight(1f)) }
+                Row { FinanceMini(l("Cash", "نقدي"), money(6_200_000), Modifier.weight(1f)); FinanceMini(l("KNET & card", "كي نت وبطاقة"), money(12_200_000), Modifier.weight(1f)) }
             }
         }
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                StatTile(money(85_700), l("VAT collected", "ضريبة محصلة"), Icons.Outlined.Percent, Modifier.weight(1f))
-                StatTile(money(4_150), l("Refunds", "مرتجعات"), Icons.AutoMirrored.Outlined.Undo, Modifier.weight(1f), accent = CarColors.Orange)
+                StatTile("66%", l("Paid by KNET", "مدفوع بـ كي نت"), Icons.Outlined.CreditCard, Modifier.weight(1f))
+                StatTile(money(125_000), l("Refunds", "مرتجعات"), Icons.AutoMirrored.Outlined.Undo, Modifier.weight(1f), accent = CarColors.Orange)
             }
         }
         item { GlassCard { Text(l("Revenue trend", "اتجاه الإيراد"), style = MaterialTheme.typography.titleMedium, color = CarColors.NavyInk); Spacer(Modifier.height(10.dp)); Sparkline(Mock.trend) } }
@@ -231,20 +231,20 @@ private fun FinanceMini(label: String, value: String, modifier: Modifier) = Colu
 fun PaymentsScreen(nav: StationNav) {
     var filter by remember { mutableIntStateOf(0) }
     CarPage(title = Screen.Payments.title(), onBack = nav::back) {
-        item { PillTabs(listOf(l("All", "الكل"), l("Cash", "نقدي"), l("Card", "بطاقة"), l("Refunds", "مرتجعات")), filter, { filter = it }) }
+        item { PillTabs(listOf(l("All", "الكل"), l("Cash", "نقدي"), l("KNET", "كي نت"), l("Card", "بطاقة"), l("Refunds", "مرتجعات")), filter, { filter = it }) }
         items(Mock.orders) { o ->
             GlassCard(padding = 10.dp) {
-                CarRow("#INV-${o.number}", "${o.customer} · 10:4${o.minutes % 10}", icon = if (o.total > 1500) Icons.Outlined.CreditCard else Icons.Outlined.Money, onClick = {}) {
+                CarRow("#INV-${o.number}", "${o.customer} · 10:4${o.minutes % 10}", icon = if (o.total > 15000) Icons.Outlined.CreditCard else Icons.Outlined.Money, onClick = {}) {
                     Column(horizontalAlignment = Alignment.End) {
                         Text(money(o.total), fontWeight = FontWeight.Bold, color = CarColors.Navy)
-                        Text(if (o.total > 1500) l("Card", "بطاقة") else l("Cash", "نقدي"), style = MaterialTheme.typography.labelMedium, color = CarColors.TextSecondary)
+                        Text(if (o.total > 15000) l("KNET", "كي نت") else l("Cash", "نقدي"), style = MaterialTheme.typography.labelMedium, color = CarColors.TextSecondary)
                     }
                 }
             }
         }
         item {
             GlassCard(padding = 10.dp) {
-                CarRow("#INV-A-1031", l("Refund · wrong service charged", "مرتجع · خدمة خاطئة"), icon = Icons.AutoMirrored.Outlined.Undo) { Text("-" + money(400), color = CarColors.Orange, fontWeight = FontWeight.Bold) }
+                CarRow("#INV-A-1031", l("Refund · wrong service charged", "مرتجع · خدمة خاطئة"), icon = Icons.AutoMirrored.Outlined.Undo) { Text("-" + money(12_000), color = CarColors.Orange, fontWeight = FontWeight.Bold) }
             }
         }
     }
@@ -254,16 +254,16 @@ fun PaymentsScreen(nav: StationNav) {
 
 @Composable
 fun CashDrawerScreen(nav: StationNav) {
-    var counted by remember { mutableStateOf("18,350") }
-    CarPage(title = Screen.Drawer.title(), subtitle = l("Today · Nasr City", "اليوم · مدينة نصر"), onBack = nav::back,
+    var counted by remember { mutableStateOf("548.500") }
+    CarPage(title = Screen.Drawer.title(), subtitle = l("Today · Shuwaikh", "اليوم · الشويخ"), onBack = nav::back,
         bottomBar = { FloatingActionBar { CarButton(l("Close the drawer", "إغلاق الخزينة"), { nav.back() }, icon = Icons.Outlined.Lock) } }) {
         item {
             GlassCard {
-                KeyValue(l("Opening float", "رصيد الافتتاح"), money(1_000))
-                KeyValue(l("Cash sales", "مبيعات نقدية"), money(17_800))
-                KeyValue(l("Cash refunds", "مرتجعات نقدية"), "-" + money(400))
+                KeyValue(l("Opening float", "رصيد الافتتاح"), money(30_000))
+                KeyValue(l("Cash sales", "مبيعات نقدية"), money(532_000))
+                KeyValue(l("Cash refunds", "مرتجعات نقدية"), "-" + money(12_000))
                 HairDivider()
-                KeyValue(l("Expected in drawer", "المتوقع في الخزينة"), money(18_400), strong = true)
+                KeyValue(l("Expected in drawer", "المتوقع في الخزينة"), money(550_000), strong = true)
             }
         }
         item { SoftField(l("Counted cash", "النقد المعدود"), counted, { counted = it }, icon = Icons.Outlined.Money) }
@@ -271,9 +271,9 @@ fun CashDrawerScreen(nav: StationNav) {
             GlassCard(padding = 14.dp) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(l("Difference", "الفرق"), color = CarColors.TextSecondary, modifier = Modifier.weight(1f))
-                    Text("-" + money(50), color = CarColors.Orange, fontWeight = FontWeight.ExtraBold)
+                    Text("-" + money(1_500), color = CarColors.Orange, fontWeight = FontWeight.ExtraBold)
                 }
-                Text(l("A note is required for differences over 20 EGP.", "يلزم كتابة ملاحظة للفروق أكبر من ٢٠ ج.م."), style = MaterialTheme.typography.bodyMedium, color = CarColors.TextSecondary)
+                Text(l("A note is required for differences over 1 KWD.", "يلزم كتابة ملاحظة للفروق أكبر من ١ د.ك."), style = MaterialTheme.typography.bodyMedium, color = CarColors.TextSecondary)
             }
         }
         item { SoftField(l("Note", "ملاحظة"), "", {}, placeholder = l("e.g. change given to customer", "مثال: فكة للعميل"), singleLine = false) }

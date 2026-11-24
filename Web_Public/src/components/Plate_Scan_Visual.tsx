@@ -2,10 +2,12 @@
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import { Check, Clock3, Wrench } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Kuwait_Plate } from './Kuwait_Plate';
 
-const LETTERS = ['ق', 'ص', 'ر'];
-const DIGITS = ['١', '٤', '٢', '٧'];
-const NOISE = 'ابجدرسصطعفقلمنهوى٠١٢٣٤٥٦٧٨٩';
+const CODE = '12';
+const NUMBER = '34567';
+const NOISE = '0123456789';
+const ARABIC = '٠١٢٣٤٥٦٧٨٩';
 
 /** Phase 0: idle → 1: scanning (characters decode) → 2: recognised → 3: order card slides in. Loops. */
 export function Plate_Scan_Visual({ labels }: { labels: { scanLabel: string; orderLabel: string; timer: string } }) {
@@ -42,7 +44,11 @@ export function Plate_Scan_Visual({ labels }: { labels: { scanLabel: string; ord
     return () => clearInterval(id);
   }, [phase]);
 
-  const show = (real: string, i: number) => (phase >= 2 || (phase === 1 && tick > 6 + i * 3) ? real : phase === 1 ? NOISE[(tick * 7 + i * 13) % NOISE.length] : '·');
+  // characters "decode" one by one while scanning; Arabic and English rows decode together
+  const glyph = (real: string, i: number, arabic: boolean) => {
+    const c = phase >= 2 || (phase === 1 && tick > 6 + i * 3) ? real : phase === 1 ? NOISE[(tick * 7 + i * 13) % NOISE.length] : '·';
+    return arabic && c !== '·' ? ARABIC[Number(c)] : c;
+  };
 
   return (
     <div className="relative mx-auto w-full max-w-[420px]" aria-hidden="true">
@@ -60,17 +66,9 @@ export function Plate_Scan_Visual({ labels }: { labels: { scanLabel: string; ord
               animate={phase === 1 ? { opacity: [0.4, 1, 0.4] } : { opacity: phase >= 2 ? 1 : 0.5 }} transition={{ duration: 0.8, repeat: phase === 1 ? Infinity : 0 }} />
           ))}
 
-          {/* the Egyptian plate */}
-          <div className="relative mx-6 my-7 overflow-hidden rounded-xl border-[3px] border-ink bg-white" dir="ltr">
-            <div className="flex items-center justify-between bg-[#8EC3EA] px-3 py-1 text-[11px] font-extrabold text-ink"><span>EGYPT</span><span>مصر</span></div>
-            <div className="grid grid-cols-2 divide-x-[3px] divide-ink">
-              <div className="flex justify-center gap-2 py-3 font-arabic text-3xl font-extrabold text-ink sm:text-4xl">
-                {DIGITS.map((d, i) => <motion.span key={i} animate={{ y: phase === 1 ? [0, -2, 0] : 0 }} transition={{ duration: 0.2, repeat: phase === 1 ? Infinity : 0, delay: i * 0.05 }}>{show(d, i + 3)}</motion.span>)}
-              </div>
-              <div className="flex justify-center gap-2 py-3 font-arabic text-3xl font-extrabold text-ink sm:text-4xl" dir="rtl">
-                {LETTERS.map((l, i) => <span key={i}>{show(l, i)}</span>)}
-              </div>
-            </div>
+          {/* the Kuwaiti plate */}
+          <div className="relative mx-6 my-7">
+            <Kuwait_Plate code={CODE} number={NUMBER} glyph={glyph} />
             {/* scan beam */}
             <AnimatePresence>
               {phase === 1 && (
@@ -89,7 +87,7 @@ export function Plate_Scan_Visual({ labels }: { labels: { scanLabel: string; ord
                 className="flex items-center gap-3 rounded-2xl bg-teal/20 px-4 py-3 text-sm font-semibold text-glow">
                 <motion.span initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 400, damping: 14 }}
                   className="flex h-6 w-6 items-center justify-center rounded-full bg-glow text-navy"><Check size={14} strokeWidth={3} /></motion.span>
-                {labels.scanLabel} · <span className="font-mono">QCR1427</span> · 98%
+                {labels.scanLabel} · <span className="font-mono">12 / 34567</span> · 98%
               </motion.div>
             )}
           </AnimatePresence>
@@ -106,7 +104,7 @@ export function Plate_Scan_Visual({ labels }: { labels: { scanLabel: string; ord
               <span className="text-xs font-bold text-teal">{labels.orderLabel}</span>
               <span className="flex items-center gap-1 rounded-full bg-paper px-2 py-0.5 font-mono text-xs font-bold"><Clock3 size={12} />00:{String(seconds).padStart(2, '0')}</span>
             </div>
-            <div className="mt-2 font-display text-lg font-bold">Toyota Corolla · Silver</div>
+            <div className="mt-2 font-display text-lg font-bold">Toyota Land Cruiser · White</div>
             <div className="mt-1 flex items-center gap-2 text-xs text-mist"><Wrench size={12} /> Oil change · Brake pads</div>
             <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-paper">
               <motion.div className="h-full rounded-full bg-teal" initial={{ width: '4%' }} animate={{ width: '66%' }} transition={{ duration: 4, ease: 'easeOut' }} />

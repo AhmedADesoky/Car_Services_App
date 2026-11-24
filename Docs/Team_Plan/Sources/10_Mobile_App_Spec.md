@@ -29,7 +29,7 @@ Legend: [DONE] [PARTIAL] [TODO]. "API" = backend owner, "Android" / "iOS" = scre
 | BR-01..04 | Branches, geofence editor, overrides, worker branches | [TODO] | Mostafa | Mongi | Fares |
 | W1–W7 | Worker lifecycle (list, add/edit, profile, face, security, deactivate, my profile) | [TODO] | Mostafa (+Omar face) | Mongi (+Abdelrahman W4) | Fares (+Omar W4) |
 | ATT-01..11 | Face + location check-in/out, pings, board, corrections, manual fallback | [TODO] | Ahmed A. | Abdelrahman (03–06), Mongi (17) | Omar (03–06), Fares (17) |
-| VEH-01..10 | Plate scan, Egyptian format, fallback, corrections, history, transfer | [TODO] | Mostafa (plates, vehicles) | Abdelrahman (07), Mongi (08–10) | Omar (07), Fares (08–10) |
+| VEH-01..10 | Plate scan, Kuwaiti format (code + number), fallback, corrections, history, transfer | [TODO] | Mostafa (plates, vehicles) | Abdelrahman (07), Mongi (08–10) | Omar (07), Fares (08–10) |
 | CUS-01..06 | Customers: profile, search, merge, consent, anonymise | [TODO] | Mostafa | Mongi | Fares |
 | ORD-01..10 | Orders, items, assignees, status flow, timers, offline | [TODO] | Ahmed A. | Mongi | Fares |
 | CAT-01..05 | Services, price history, tax versions, branch prices | [TODO] | Mostafa | Mongi | Fares |
@@ -52,7 +52,7 @@ Legend: [DONE] [PARTIAL] [TODO]. "API" = backend owner, "Android" / "iOS" = scre
 | SEC-06 | OWASP ASVS L2 (API), MASVS L2 (apps) | [PARTIAL] checklist in each PDF |
 | SEC-09 | Play Integrity / App Attest on login + check-in; rooted devices blocked for check-in | [TODO] Abdelrahman / Omar / Ahmed A. |
 | SEC-10 | 100 % of changes audited, hash chain | [TODO] station audit (company side done) |
-| PRV-01..05 | Faces as templates only + consent; GPS only during shift (90 days raw); PDPL 151/2020; DSR in 30 days | [TODO] |
+| PRV-01..05 | Faces as templates only + consent; GPS only during shift (90 days raw); Kuwait CITRA data privacy regulation; DSR in 30 days | [TODO] |
 | PERF-01 | API p95 < 300 ms | [TODO] k6 |
 | PERF-02 | Plate < 1.5 s on mid-range phone | [TODO] AI track |
 | PERF-03 | Check-in < 4 s on 4G | [TODO] |

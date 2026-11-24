@@ -108,7 +108,7 @@ fun CheckInScreen(nav: StationNav) {
         else -> l("Identity confirmed", "تم تأكيد الهوية")
     }
     CarPage(
-        title = l("Face check-in", "تسجيل الحضور بالوجه"), subtitle = l("Nasr City branch · Shift 09:00", "فرع مدينة نصر · وردية ٠٩:٠٠"), onBack = nav::back,
+        title = l("Face check-in", "تسجيل الحضور بالوجه"), subtitle = l("Shuwaikh branch · Shift 08:00", "فرع الشويخ · وردية ٠٨:٠٠"), onBack = nav::back,
         bottomBar = {
             FloatingActionBar {
                 when (step) {
@@ -176,7 +176,7 @@ fun CheckInResultScreen(nav: StationNav, ok: Boolean) {
         item {
             GlassCard {
                 if (ok) {
-                    KeyValue(l("Branch", "الفرع"), l("Nasr City", "مدينة نصر"))
+                    KeyValue(l("Branch", "الفرع"), l("Shuwaikh", "الشويخ"))
                     KeyValue(l("Face match", "تطابق الوجه"), "98.6%", valueColor = CarColors.Teal)
                     KeyValue(l("Live check", "التحقق الحي"), l("Passed", "ناجح"), valueColor = CarColors.Teal)
                     KeyValue(l("Shift ends", "نهاية الوردية"), "17:00")
@@ -311,12 +311,12 @@ fun MyProfileScreen(nav: StationNav, userName: String) {
                 Avatar(userName.ifBlank { "Me" }, size = 92.dp)
                 Spacer(Modifier.height(10.dp))
                 Text(userName, style = MaterialTheme.typography.headlineSmall, color = CarColors.Navy)
-                StatusPill(l("Owner · Nasr City", "مالك · مدينة نصر"), CarColors.Teal, Modifier.padding(top = 6.dp))
+                StatusPill(l("Owner · Shuwaikh", "مالك · الشويخ"), CarColors.Teal, Modifier.padding(top = 6.dp))
             }
         }
         item {
             GlassCard(padding = 8.dp) {
-                CarRow(l("Phone", "الهاتف"), "+20 100 000 0000", icon = Icons.Outlined.Phone, onClick = {})
+                CarRow(l("Phone", "الهاتف"), "+965 9000 0000", icon = Icons.Outlined.Phone, onClick = {})
                 CarRow(l("Email", "البريد"), "owner@station.example", icon = Icons.Outlined.Email, onClick = {})
                 CarRow(l("Language", "اللغة"), l("English", "العربية"), icon = Icons.Outlined.Language, onClick = {})
                 CarRow(l("Password & 2-step", "كلمة المرور والتحقق"), l("Changed 12 days ago", "تم التغيير منذ ١٢ يوماً"), icon = Icons.Outlined.Lock, onClick = { nav.open(Screen.S2) })

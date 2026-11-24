@@ -91,7 +91,7 @@ customers(id, tenant_id, name text NOT NULL, name_normalized text, phone_e164 by
           opt_in_at timestamptz, notes text, merged_into_id uuid, anonymized_at timestamptz, created_at, updated_at,
           created_by, version int, UNIQUE(tenant_id,id), UNIQUE(tenant_id, phone_hash))
 vehicles(id, tenant_id, plate_display text, plate_normalized text NOT NULL, plate_country text DEFAULT 'EG',
-         plate_type text CHECK IN ('private','taxi','transport','commercial','other'), make, model, year int,
+         plate_type text CHECK IN ('private','taxi','commercial_transport','government','other'), make, model, year int,
          color text, body_type text CHECK IN ('sedan','suv','hatchback','pickup','van'), vin text,
          current_customer_id uuid, last_mileage int, UNIQUE(tenant_id, plate_normalized), ...)
 vehicle_ownerships(tenant_id, vehicle_id, customer_id, from_date, to_date)
@@ -147,7 +147,7 @@ Retention: plate images deleted after 90 days (your job runner) unless reference
 - WhatsApp Business **Cloud API**: each station stores its own `phone_number_id` + access token (encrypted). Approved templates per locale in `message_templates`.
 - Send = consumer of `ReceiptIssued` / explicit send request: check customer `whatsapp_opt_in`, create `message_deliveries` (`idempotency_key UNIQUE` → a retry never sends twice), call the Graph API with the receipt PDF link (signed URL valid 7 days or media upload), status `queued → sent`.
 - **Webhook** `POST /v1/webhooks/whatsapp` (`@Public`): verify `X-Hub-Signature-256` HMAC with the app secret **before parsing**; map `phone_number_id → tenant` through a platform lookup table; update delivery status (`delivered`, `read`, `failed`); unknown ids ignored. Respond 200 fast; process async.
-- Fallback (CHK-05): after `failed` or 5 min without `sent` → SMS provider (`Messaging_Provider` interface: `console` in dev, an Egyptian SMS gateway in prod) then email.
+- Fallback (CHK-05): after `failed` or 5 min without `sent` → SMS provider (`Messaging_Provider` interface: `console` in dev, a Kuwaiti SMS gateway in prod) then email.
 - `Messaging.sendOtp(phone, code)` for Ahmed A.'s forgot-password flow.
 
 ## 7. Accounting, reports, dashboards (ACC-01..05, REP-01..04)

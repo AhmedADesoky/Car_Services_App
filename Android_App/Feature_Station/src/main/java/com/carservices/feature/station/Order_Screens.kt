@@ -71,7 +71,7 @@ import com.carservices.core.designsystem.CarColors
 import com.carservices.core.designsystem.CarDropdown
 import com.carservices.core.designsystem.CarPage
 import com.carservices.core.designsystem.CarRow
-import com.carservices.core.designsystem.EgyptPlate
+import com.carservices.core.designsystem.KuwaitPlate
 import com.carservices.core.designsystem.FloatingActionBar
 import com.carservices.core.designsystem.GhostButton
 import com.carservices.core.designsystem.GlassCard
@@ -104,8 +104,8 @@ fun ScanPlateScreen(nav: StationNav) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Column(Modifier.weight(1f)) {
                                 Text(l("Returning car", "سيارة عائدة"), color = CarColors.Teal, style = MaterialTheme.typography.labelMedium)
-                                Text("Hyundai Elantra 2021", style = MaterialTheme.typography.titleMedium, color = CarColors.NavyInk)
-                                Text(l("Mostafa Hamdy · 14 visits", "مصطفى حمدي · ١٤ زيارة"), style = MaterialTheme.typography.bodyMedium, color = CarColors.TextSecondary)
+                                Text("Toyota Land Cruiser 2022", style = MaterialTheme.typography.titleMedium, color = CarColors.NavyInk)
+                                Text(l("Abdullah Al-Mutairi · 14 visits", "عبدالله المطيري · ١٤ زيارة"), style = MaterialTheme.typography.bodyMedium, color = CarColors.TextSecondary)
                             }
                             StatusPill("97%", CarColors.Teal)
                         }
@@ -123,7 +123,7 @@ fun ScanPlateScreen(nav: StationNav) {
         item {
             CameraViewfinder(Modifier.aspectRatio(0.78f)) {
                 val pop by animateFloatAsState(if (found) 1f else 0f, spring(dampingRatio = 0.5f, stiffness = Spring.StiffnessLow), label = "plate")
-                Box(Modifier.scale(0.6f + 0.4f * pop)) { if (found) EgyptPlate("ق ر ب", "٤٥٦٧", scale = 1.15f) }
+                Box(Modifier.scale(0.6f + 0.4f * pop)) { if (found) KuwaitPlate("12", "34567", scale = 1.15f) }
                 Text(if (found) l("Plate recognised", "تم التعرف على اللوحة") else l("Hold steady…", "ثبّت الهاتف…"), color = Color.White, style = MaterialTheme.typography.titleMedium, modifier = Modifier.align(Alignment.BottomCenter).padding(20.dp))
             }
         }
@@ -134,25 +134,25 @@ fun ScanPlateScreen(nav: StationNav) {
 
 @Composable
 fun NewCarScreen(nav: StationNav) {
-    var letters by remember { mutableStateOf("ق ر ب") }
-    var digits by remember { mutableStateOf("٤٥٦٧") }
-    var make by remember { mutableStateOf<String?>("Hyundai") }
-    var model by remember { mutableStateOf<String?>("Elantra") }
+    var code by remember { mutableStateOf("12") }
+    var number by remember { mutableStateOf("34567") }
+    var make by remember { mutableStateOf<String?>("Toyota") }
+    var model by remember { mutableStateOf<String?>("Land Cruiser") }
     var body by remember { mutableIntStateOf(0) }
     CarPage(title = Screen.NewCar.title(), onBack = nav::back, bottomBar = { FloatingActionBar { CarButton(l("Save & open order", "حفظ وفتح طلب"), { nav.replace(Screen.Repairs) }) } }) {
-        item { Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { EgyptPlate(letters, digits, scale = 1.2f) } }
+        item { Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { KuwaitPlate(code, number, scale = 1.2f) } }
         item {
             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                SoftField(l("Letters", "الحروف"), letters, { letters = it }, Modifier.weight(1f))
-                SoftField(l("Numbers", "الأرقام"), digits, { digits = it }, Modifier.weight(1f))
+                SoftField(l("Code", "الرمز"), code, { code = it.filter(Char::isDigit).take(2) }, Modifier.weight(0.7f))
+                SoftField(l("Number", "الرقم"), number, { number = it.filter(Char::isDigit).take(5) }, Modifier.weight(1.3f))
             }
         }
-        item { CarDropdown(l("Make", "الماركة"), listOf("Hyundai", "Kia", "Toyota", "Nissan", "Chevrolet", "Mitsubishi", "Renault", "Peugeot"), make, { make = it }, { it }, icon = Icons.Outlined.DirectionsCar) }
-        item { CarDropdown(l("Model", "الموديل"), listOf("Elantra", "Accent", "Tucson", "Verna"), model, { model = it }, { it }, hint = { l("Sedan · 2015–2025", "سيدان · ٢٠١٥–٢٠٢٥") }) }
+        item { CarDropdown(l("Make", "الماركة"), listOf("Toyota", "Nissan", "Lexus", "GMC", "Chevrolet", "Hyundai", "Kia", "Mitsubishi"), make, { make = it }, { it }, icon = Icons.Outlined.DirectionsCar) }
+        item { CarDropdown(l("Model", "الموديل"), listOf("Land Cruiser", "Prado", "Camry", "Corolla"), model, { model = it }, { it }, hint = { l("2015–2025", "٢٠١٥–٢٠٢٥") }) }
         item { SegmentedTabs(listOf(l("Sedan", "سيدان"), "SUV", l("Hatch", "هاتشباك"), l("Pickup", "بيك أب")), body, { body = it }) }
         item { SectionTitle(l("Customer", "العميل")) }
         item { SoftField(l("Name", "الاسم"), "", {}, icon = Icons.Outlined.Person) }
-        item { SoftField(l("Mobile", "الموبايل"), "", {}, icon = Icons.Outlined.Phone, placeholder = "+20 1xx xxx xxxx") }
+        item { SoftField(l("Mobile", "الهاتف"), "", {}, icon = Icons.Outlined.Phone, placeholder = "+965 xxxx xxxx") }
         item { GlassCard(padding = 8.dp) { ToggleRow(l("Send receipts on WhatsApp", "إرسال الإيصالات على واتساب"), l("Customer agreed", "وافق العميل"), icon = Icons.AutoMirrored.Outlined.Chat) } }
     }
 }
@@ -166,15 +166,15 @@ fun ReturningCarScreen(nav: StationNav) {
         item {
             NavyCard {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    EgyptPlate("ق ر ب", "٤٥٦٧", scale = 0.62f)
+                    KuwaitPlate("12", "34567", scale = 0.62f)
                     Spacer(Modifier.width(14.dp))
-                    Column { Text("Hyundai Elantra 2021", color = Color.White, style = MaterialTheme.typography.titleMedium); Text(l("Silver · 84,200 km", "فضي · ٨٤٬٢٠٠ كم"), color = Color.White.copy(alpha = 0.6f)) }
+                    Column { Text("Toyota Land Cruiser 2022", color = Color.White, style = MaterialTheme.typography.titleMedium); Text(l("White · 84,200 km", "أبيض · ٨٤٬٢٠٠ كم"), color = Color.White.copy(alpha = 0.6f)) }
                 }
                 Spacer(Modifier.height(16.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Avatar("Mostafa Hamdy", tone = CarColors.TealGlow)
+                    Avatar("Abdullah Al-Mutairi", tone = CarColors.TealGlow)
                     Spacer(Modifier.width(10.dp))
-                    Column(Modifier.weight(1f)) { Text("Mostafa Hamdy", color = Color.White, fontWeight = FontWeight.SemiBold); Text(l("14 visits · since 2023", "١٤ زيارة · منذ ٢٠٢٣"), color = CarColors.TealGlow, style = MaterialTheme.typography.labelMedium) }
+                    Column(Modifier.weight(1f)) { Text("Abdullah Al-Mutairi", color = Color.White, fontWeight = FontWeight.SemiBold); Text(l("14 visits · since 2023", "١٤ زيارة · منذ ٢٠٢٣"), color = CarColors.TealGlow, style = MaterialTheme.typography.labelMedium) }
                     GlassIconButton(Icons.Outlined.Phone, l("Call", "اتصال"), {}, dark = true)
                 }
             }
@@ -184,7 +184,7 @@ fun ReturningCarScreen(nav: StationNav) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Glyph(Icons.Outlined.WarningAmber, tint = CarColors.Orange, active = true)
                     Spacer(Modifier.width(12.dp))
-                    Column { Text(l("Follow-up due", "متابعة مستحقة"), fontWeight = FontWeight.Bold, color = CarColors.NavyInk); Text(l("Rear brake pads were at 30% on 12 Oct", "تيل الفرامل الخلفي كان ٣٠٪ في ١٢ أكتوبر"), color = CarColors.TextSecondary, style = MaterialTheme.typography.bodyMedium) }
+                    Column { Text(l("Follow-up due", "متابعة مستحقة"), fontWeight = FontWeight.Bold, color = CarColors.NavyInk); Text(l("Rear brake pads were at 30% on 12 Oct", "فحمات الفرامل الخلفية كانت ٣٠٪ في ١٢ أكتوبر"), color = CarColors.TextSecondary, style = MaterialTheme.typography.bodyMedium) }
                 }
             }
         }
@@ -195,9 +195,9 @@ fun ReturningCarScreen(nav: StationNav) {
 
 @Composable
 private fun visits() = listOf(
-    Triple(l("12 Oct", "١٢ أكتوبر"), l("Oil change · Filter", "تغيير زيت · فلتر"), 1100),
-    Triple(l("3 Aug", "٣ أغسطس"), l("Front brake pads", "تيل فرامل أمامي"), 1600),
-    Triple(l("19 Jun", "١٩ يونيو"), l("Full wash · Polish", "غسيل كامل · تلميع"), 650),
+    Triple(l("12 Oct", "١٢ أكتوبر"), l("Oil change · Filter", "تغيير زيت · فلتر"), 16000),
+    Triple(l("3 Aug", "٣ أغسطس"), l("Front brake pads", "فحمات فرامل أمامية"), 35000),
+    Triple(l("19 Jun", "١٩ يونيو"), l("Full wash · Polish", "غسيل كامل · تلميع"), 10000),
 )
 
 /* =================================================================================== 10 history */
@@ -205,8 +205,8 @@ private fun visits() = listOf(
 @Composable
 fun HistoryScreen(nav: StationNav) {
     val visits = visits()
-    CarPage(title = Screen.History.title(), subtitle = "Hyundai Elantra · ق ر ب ٤٥٦٧", onBack = nav::back) {
-        item { GlassCard(padding = 14.dp) { Row { KeyStat("14", l("Visits", "زيارات")); KeyStat(money(18_450), l("Spent", "إنفاق")); KeyStat("4.9★", l("Rating", "تقييم")) } } }
+    CarPage(title = Screen.History.title(), subtitle = "Toyota Land Cruiser · 12 / 34567", onBack = nav::back) {
+        item { GlassCard(padding = 14.dp) { Row { KeyStat("14", l("Visits", "زيارات")); KeyStat(money(552_500), l("Spent", "إنفاق")); KeyStat("4.9★", l("Rating", "تقييم")) } } }
         items(visits + visits) { (date, what, total) ->
             Row {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(22.dp).padding(top = 22.dp)) { Dot(CarColors.Teal); Box(Modifier.width(1.dp).height(70.dp).background(CarColors.Divider)) }
@@ -237,7 +237,7 @@ fun RepairsScreen(nav: StationNav) {
     var problem by remember { mutableStateOf("") }
     var worker by remember { mutableStateOf<MockWorker?>(Mock.workers[0]) }
     val total = picked.sumOf { Mock.services[it].price }
-    CarPage(title = Screen.Repairs.title(), subtitle = "ق ر ب ٤٥٦٧", onBack = nav::back,
+    CarPage(title = Screen.Repairs.title(), subtitle = "12 / 34567", onBack = nav::back,
         bottomBar = {
             FloatingActionBar {
                 Row(verticalAlignment = Alignment.CenterVertically) {
@@ -296,9 +296,9 @@ fun InProgressScreen(nav: StationNav) {
                     Column(Modifier.weight(1f)) {
                         Row(verticalAlignment = Alignment.CenterVertically) { LiveDot(CarColors.TealGlow); Spacer(Modifier.width(8.dp)); Text(l("Timer running", "المؤقت يعمل"), color = CarColors.TealGlow, style = MaterialTheme.typography.labelMedium) }
                         BigNumber("%02d:%02d".format(seconds / 60, seconds % 60), Color.White, 44)
-                        Text("Hyundai Elantra · Mostafa Hamdy", color = Color.White.copy(alpha = 0.6f), style = MaterialTheme.typography.bodyMedium)
+                        Text("Toyota Land Cruiser · Abdullah Al-Mutairi", color = Color.White.copy(alpha = 0.6f), style = MaterialTheme.typography.bodyMedium)
                     }
-                    EgyptPlate("ق ر ب", "٤٥٦٧", scale = 0.5f)
+                    KuwaitPlate("12", "34567", scale = 0.5f)
                 }
             }
         }
@@ -328,8 +328,8 @@ fun InProgressScreen(nav: StationNav) {
 fun CheckoutScreen(nav: StationNav) {
     val items = Mock.services.take(2)
     val subtotal = items.sumOf { it.price }
-    val tax = subtotal * 14 / 100
-    CarPage(title = Screen.Checkout.title(), subtitle = "A-1042 · ق ر ب ٤٥٦٧", onBack = nav::back,
+    val tax = 0   // Kuwait has no VAT today; the tax line appears when a station enables a rate
+    CarPage(title = Screen.Checkout.title(), subtitle = "A-1042 · 12 / 34567", onBack = nav::back,
         bottomBar = {
             FloatingActionBar {
                 Row(verticalAlignment = Alignment.CenterVertically) { Text(l("Total", "الإجمالي"), color = CarColors.TextSecondary, modifier = Modifier.weight(1f)); BigNumber(money(subtotal + tax), size = 26) }
@@ -346,11 +346,10 @@ fun CheckoutScreen(nav: StationNav) {
                 items.forEach { KeyValue(l(it.name, it.nameAr), money(it.price)) }
                 HairDivider()
                 KeyValue(l("Subtotal", "المجموع"), money(subtotal))
-                KeyValue(l("VAT 14%", "ضريبة ١٤٪"), money(tax))
                 KeyValue(l("Total", "الإجمالي"), money(subtotal + tax), strong = true, valueColor = CarColors.Navy)
             }
         }
-        item { GlassCard(padding = 8.dp) { ToggleRow(l("Send on WhatsApp", "إرسال على واتساب"), "+20 100 123 4567", icon = Icons.AutoMirrored.Outlined.Chat) } }
+        item { GlassCard(padding = 8.dp) { ToggleRow(l("Send on WhatsApp", "إرسال على واتساب"), "+965 9876 5432", icon = Icons.AutoMirrored.Outlined.Chat) } }
     }
 }
 
@@ -359,17 +358,17 @@ fun CheckoutScreen(nav: StationNav) {
 @Composable
 fun PaymentScreen(nav: StationNav) {
     var method by remember { mutableIntStateOf(0) }
-    var tendered by remember { mutableStateOf("1,500") }
-    val total = 1254
+    var tendered by remember { mutableStateOf("20.000") }
+    val total = 16000
     CarPage(title = Screen.Payment.title(), subtitle = "A-1042", onBack = nav::back, bottomBar = { FloatingActionBar { CarButton(l("Confirm payment", "تأكيد الدفع"), { nav.replace(Screen.Paid) }, icon = Icons.Outlined.Check, tone = CarColors.Teal) } }) {
         item { Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) { Text(l("Amount due", "المبلغ المستحق"), color = CarColors.TextSecondary); BigNumber(money(total), size = 40) } }
-        item { SegmentedTabs(listOf(l("Cash", "نقدي"), l("Card", "بطاقة"), l("Split", "مقسّم")), method, { method = it }) }
+        item { SegmentedTabs(listOf(l("Cash", "نقدي"), l("KNET", "كي نت"), l("Split", "مقسّم")), method, { method = it }) }
         item {
             GlassCard {
                 when (method) {
-                    0 -> { SoftField(l("Cash received", "المبلغ المستلم"), tendered, { tendered = it }, icon = Icons.Outlined.Money); Spacer(Modifier.height(10.dp)); KeyValue(l("Change", "الباقي"), money(246), strong = true, valueColor = CarColors.Teal) }
-                    1 -> { CarRow(l("Use the POS terminal", "استخدم ماكينة الدفع"), l("Then type the last 4 digits", "ثم اكتب آخر ٤ أرقام"), icon = Icons.Outlined.CreditCard); SoftField(l("Card reference", "مرجع البطاقة"), "", {}, placeholder = "•••• 4821") }
-                    else -> { SoftField(l("Cash", "نقدي"), "800", {}, icon = Icons.Outlined.Money); Spacer(Modifier.height(10.dp)); SoftField(l("Card", "بطاقة"), "454", {}, icon = Icons.Outlined.CreditCard); KeyValue(l("Remaining", "المتبقي"), money(0), valueColor = CarColors.Teal) }
+                    0 -> { SoftField(l("Cash received", "المبلغ المستلم"), tendered, { tendered = it }, icon = Icons.Outlined.Money); Spacer(Modifier.height(10.dp)); KeyValue(l("Change", "الباقي"), money(4000), strong = true, valueColor = CarColors.Teal) }
+                    1 -> { CarRow(l("Use the KNET terminal", "استخدم جهاز كي نت"), l("Then type the receipt reference", "ثم اكتب رقم المرجع"), icon = Icons.Outlined.CreditCard); SoftField(l("KNET reference", "مرجع كي نت"), "", {}, placeholder = "e.g. 512345") }
+                    else -> { SoftField(l("Cash", "نقدي"), "10.000", {}, icon = Icons.Outlined.Money); Spacer(Modifier.height(10.dp)); SoftField(l("KNET", "كي نت"), "6.000", {}, icon = Icons.Outlined.CreditCard); KeyValue(l("Remaining", "المتبقي"), money(0), valueColor = CarColors.Teal) }
                 }
             }
         }
@@ -394,8 +393,8 @@ fun PaidScreen(nav: StationNav) {
             Column(Modifier.fillMaxWidth().padding(top = 40.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Box(Modifier.scale(pop)) { Glyph(Icons.Outlined.CheckCircle, size = 128.dp, active = true, tint = CarColors.Teal) }
                 Spacer(Modifier.height(18.dp))
-                BigNumber(money(1254))
-                Text(l("Paid in cash · change 246 EGP", "مدفوع نقداً · الباقي ٢٤٦ ج.م"), color = CarColors.TextSecondary, textAlign = TextAlign.Center)
+                BigNumber(money(16000))
+                Text(l("Paid in cash · change 4.000 KWD", "مدفوع نقداً · الباقي ٤٫٠٠٠ د.ك"), color = CarColors.TextSecondary, textAlign = TextAlign.Center)
             }
         }
         item {

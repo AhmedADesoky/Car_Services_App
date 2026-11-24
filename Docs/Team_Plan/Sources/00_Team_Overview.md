@@ -168,7 +168,7 @@ Legend: [DONE] works and is tested · [PARTIAL] started, more work listed in the
 | | AUTH-08 | forgot password flows | [TODO] | Ahmed A. |
 | Branches | BR-01..04 | branches, geofence, overrides, worker branches | [TODO] | Mostafa (API) |
 | Attendance | ATT-01..11 | face + location check-in/out, pings, board, corrections | [TODO] | Ahmed A. (API) · Abdelrahman/Omar (apps) |
-| Plates & vehicles | VEH-01..10 | scan, Egyptian format, fallback, corrections, history | [TODO] (`Plate_Normalizer` ready) | Mostafa (API) · Abdelrahman/Omar (scan) |
+| Plates & vehicles | VEH-01..10 | scan, Kuwaiti format (code + number, dual-row check), fallback, corrections, history | [TODO] (`Plate_Normalizer` ready) | Mostafa (API) · Abdelrahman/Omar (scan) |
 | Customers | CUS-01..06 | profile, search, merge, consent, anonymise | [TODO] | Mostafa |
 | Orders | ORD-01..10 | order, items, assignees, status flow, timers, offline | [TODO] | Ahmed A. |
 | Catalog | CAT-01..05 | services, price history, tax versions | [TODO] | Mostafa |
@@ -198,7 +198,7 @@ Legend: [DONE] works and is tested · [PARTIAL] started, more work listed in the
 | SEC-08 | no critical dependency CVEs | [TODO] | Dependabot + `npm audit` gate (Mostafa) |
 | SEC-09 | Play Integrity / App Attest | [TODO] | Abdelrahman (Android), Omar (iOS), verify on server (Ahmed A.) |
 | SEC-10 | 100 % audit + hash chain | [TODO] | Ahmed A. |
-| PRV-01..05 | biometric/location minimisation, PDPL 151/2020, DSR, residency | [TODO] | Omar/Abdelrahman (data), Mostafa (retention jobs), owner (legal) |
+| PRV-01..05 | biometric/location minimisation, Kuwait CITRA data privacy regulation, DSR, residency | [TODO] | Omar/Abdelrahman (data), Mostafa (retention jobs), owner (legal) |
 | PERF-01..07 | latency, plate < 1.5 s, check-in < 4 s, etc. | [TODO] | k6 tests (Mostafa), device benchmarks (AI pair) |
 | SCL-01..04 | scale, peak load, autoscale, noisy neighbour | [PARTIAL] | stateless API + per-IP limits; per-tenant quotas (Mostafa) |
 | REL-01..06 | 99.9 %, backups, no duplicate money, degradation, offline | [PARTIAL] | Idempotency-Key sent by Android; server store (Ahmed A.); backups (Mostafa) |
@@ -327,7 +327,7 @@ Add this to `.github/CODEOWNERS` (Mostafa, week 1) so GitHub requests the right 
 | Option | Verdict | Why |
 |---|---|---|
 | Models inside NestJS (`onnxruntime-node`) | ✗ | inference is CPU-heavy and blocks the Node event loop → every station's API slows down (noisy neighbour, NFR SCL-04); pre-processing must match the Python training code exactly; one model crash takes the whole API down; cannot scale AI separately from the API |
-| Third-party hosted AI API (e.g. a public inference cloud) | ✗ | worker faces are **biometric sensitive data** under Egypt's PDPL 151/2020; tenant isolation and data residency cannot be guaranteed; cost per call |
+| Third-party hosted AI API (e.g. a public inference cloud) | ✗ | worker faces are **biometric sensitive data** under Kuwait's CITRA Data Privacy Protection Regulation; tenant isolation and data residency cannot be guaranteed; cost per call |
 | **Separate internal Inference Service, called only by the backend** | ✓ | same Python code as training (no drift); scales on its own (CPU now, GPU later); private network only; the backend stays the single gate that checks the JWT tenant, permissions, quotas and audit before any AI call; per-tenant model routing in one place |
 | On-device (LiteRT / Core ML) | ✓ (first pass) | plate in < 1.5 s and instant face/liveness feedback, works with weak 4G; but the server **re-checks** face + liveness for check-in (device result alone is never trusted) |
 

@@ -86,7 +86,7 @@ Decision (overview section 7): a **separate internal Python service**, called **
 | Screen | Notes |
 |---|---|
 | W4 Face enrollment | AVFoundation front camera, oval guide, quality feedback, consent screen first, 3–5 frames, upload, success |
-| 07 Scan plate | `AVCaptureVideoDataOutput` 720p, 150 ms sampling, best-3 vote, server fallback < 0.85, manual Egyptian plate keyboard, matched-geometry plate chip into the order header (design note), then hand over to Fares's 08/09 |
+| 07 Scan plate | `AVCaptureVideoDataOutput` 720p, 150 ms sampling, best-3 vote, server fallback < 0.85, manual Kuwaiti plate entry (code + number, digit keyboard), matched-geometry plate chip into the order header (design note), then hand over to Fares's 08/09 |
 | 03–06 Check-in | same sequence as Android (challenge → location + App Attest assertion → active + passive liveness → one frame → server decision), haptics on success, reason screen on refusal |
 | S8 AI page | API only (Fares builds the screen on iOS, Mongi on Android) |
 

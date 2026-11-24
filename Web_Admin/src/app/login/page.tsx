@@ -240,13 +240,13 @@ function Rotating({ words }: { words: string[] }) {
 function Cairo_Clock() {
   const [now, setNow] = useState<string | null>(null);
   useEffect(() => {
-    const tick = () => setNow(new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Cairo', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(new Date()));
+    const tick = () => setNow(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Kuwait', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(new Date()));
     tick(); const t = setInterval(tick, 1000); return () => clearInterval(t);
   }, []);
   return (
     <div className="mt-10 flex items-center gap-3 text-xs text-mist">
       <span className="relative flex h-2 w-2"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-glow/60" /><span className="relative h-2 w-2 rounded-full bg-glow" /></span>
-      Platform online · Cairo <span className="font-mono text-fog">{now ?? '--:--:--'}</span>
+      Platform online · Kuwait <span className="font-mono text-fog">{now ?? '--:--:--'}</span>
     </div>
   );
 }

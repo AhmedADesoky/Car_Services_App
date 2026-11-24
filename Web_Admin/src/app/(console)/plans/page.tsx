@@ -41,7 +41,7 @@ export default function PlansPage() {
               className={`panel relative overflow-hidden p-6 ${p.code === 'pro' ? 'border-glow/50' : ''}`}>
               {p.code === 'pro' && <span className="absolute right-4 top-4 rounded-full bg-glow px-2.5 py-0.5 text-xs font-bold text-ink">Most chosen</span>}
               <h2 className="font-display text-2xl font-bold text-white">{p.name}</h2>
-              <div className="mt-2 flex items-baseline gap-1"><span className="font-display text-4xl font-bold text-glow">{Number(p.price_monthly).toLocaleString()}</span><span className="text-mist">{p.currency} / month</span></div>
+              <div className="mt-2 flex items-baseline gap-1"><span className="font-display text-4xl font-bold text-glow">{Number(p.price_monthly).toLocaleString('en-US', { minimumFractionDigits: p.currency === 'KWD' ? 3 : 2, maximumFractionDigits: 3 })}</span><span className="text-mist">{p.currency} / month</span></div>
               <div className="mt-1 text-xs text-mist">{p.stations} station(s) on this plan</div>
               <ul className="mt-5 space-y-2 text-sm">
                 {Object.entries(LIMIT_LABEL).map(([key, label]) => (
@@ -54,7 +54,7 @@ export default function PlansPage() {
         </Stagger>
       )}
       <Modal open={!!editing} onClose={() => setEditing(null)} title={`Edit ${editing?.name ?? ''}`}>
-        <Field label="Monthly price (EGP)"><input className="field" type="number" min={0} value={price} onChange={(e) => setPrice(e.target.value)} /></Field>
+        <Field label="Monthly price (KWD)"><input className="field" type="number" min={0} step="0.001" value={price} onChange={(e) => setPrice(e.target.value)} /></Field>
         <div className="mt-4 flex justify-end gap-2"><button className="btn btn-ghost" onClick={() => setEditing(null)}>Cancel</button><button className="btn btn-primary" onClick={save}>Save</button></div>
       </Modal>
       <Toast message={toast?.text ?? null} tone={toast?.tone} onDone={() => setToast(null)} />

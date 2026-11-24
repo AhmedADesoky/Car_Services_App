@@ -80,7 +80,7 @@ import com.carservices.core.designsystem.l
 @Composable
 fun SetupWizardScreen(nav: StationNav) {
     var step by remember { mutableIntStateOf(0) }
-    var tax by remember { mutableStateOf<String?>("14%") }
+    var tax by remember { mutableStateOf<String?>("0%") }
     var receiptLang by remember { mutableStateOf<String?>("Arabic") }
     CarPage(title = Screen.S3.title(), subtitle = "${step + 1}/3", onBack = { if (step > 0) step-- else nav.back() },
         bottomBar = { FloatingActionBar { CarButton(if (step < 2) l("Next", "التالي") else l("Finish setup", "إنهاء الإعداد"), { if (step < 2) step++ else nav.replace(Screen.S4) }) } }) {
@@ -97,14 +97,14 @@ fun SetupWizardScreen(nav: StationNav) {
                         }
                         1 -> {
                             Text(l("Tax & receipts", "الضريبة والإيصالات"), style = MaterialTheme.typography.headlineSmall, color = CarColors.Navy)
-                            CarDropdown(l("VAT rate", "نسبة الضريبة"), listOf("0%", "5%", "14%"), tax, { tax = it }, { it }, icon = Icons.Outlined.Percent, hint = { if (it == "14%") l("Standard Egypt VAT", "الضريبة القياسية في مصر") else l("Special rate", "نسبة خاصة") })
+                            CarDropdown(l("VAT rate", "نسبة الضريبة"), listOf("0%", "5%"), tax, { tax = it }, { it }, icon = Icons.Outlined.Percent, hint = { if (it == "0%") l("Kuwait: no VAT today", "الكويت: لا ضريبة قيمة مضافة حالياً") else l("Ready for GCC VAT", "جاهز لضريبة دول الخليج") })
                             CarDropdown(l("Receipt language", "لغة الإيصال"), listOf("Arabic", "English", "Both"), receiptLang, { receiptLang = it }, { it })
                             GlassCard(padding = 8.dp) { ToggleRow(l("Prices include VAT", "الأسعار شاملة الضريبة"), initial = false) }
                         }
                         else -> {
                             Text(l("First branch", "الفرع الأول"), style = MaterialTheme.typography.headlineSmall, color = CarColors.Navy)
-                            SoftField(l("Branch name", "اسم الفرع"), "Nasr City", {}, icon = Icons.Outlined.Place)
-                            SoftField(l("Address", "العنوان"), "12 Makram Ebeid St.", {})
+                            SoftField(l("Branch name", "اسم الفرع"), "Shuwaikh", {}, icon = Icons.Outlined.Place)
+                            SoftField(l("Address", "العنوان"), "Block 2, Street 28, Shuwaikh Industrial", {})
                             Text(l("Next you'll draw the check-in area on the map.", "بعد ذلك سترسم نطاق الحضور على الخريطة."), color = CarColors.TextSecondary)
                         }
                     }
@@ -122,7 +122,7 @@ fun BranchesScreen(nav: StationNav) {
     var branch by remember { mutableIntStateOf(0) }
     CarPage(title = Screen.S4.title(), onBack = nav::back, actions = { GlassIconButton(Icons.Outlined.Add, l("Add branch", "إضافة فرع"), {}) },
         bottomBar = { FloatingActionBar { CarButton(l("Save geofence", "حفظ النطاق"), { nav.back() }, icon = Icons.Outlined.Check) } }) {
-        item { PillTabs(listOf(l("Nasr City", "مدينة نصر"), l("Heliopolis", "مصر الجديدة")), branch, { branch = it }) }
+        item { PillTabs(listOf(l("Shuwaikh", "الشويخ"), l("Salmiya", "السالمية")), branch, { branch = it }) }
         item { GeofenceMap(radius) }
         item {
             GlassCard {
@@ -174,7 +174,7 @@ fun WorkerAccountScreen(nav: StationNav) {
         item { SectionTitle(l("Where can they check in?", "أين يمكنه تسجيل الحضور؟")) }
         item {
             GlassCard(padding = 8.dp) {
-                listOf(l("Nasr City", "مدينة نصر"), l("Heliopolis", "مصر الجديدة")).forEachIndexed { i, b ->
+                listOf(l("Shuwaikh", "الشويخ"), l("Salmiya", "السالمية")).forEachIndexed { i, b ->
                     CarRow(b, l("Geofence 100 m", "نطاق ١٠٠ م"), icon = Icons.Outlined.Place, onClick = { branches[i] = !branches[i] }) {
                         Box(Modifier.size(24.dp).clip(CircleShape).background(if (branches[i]) CarColors.Teal else CarColors.Divider), contentAlignment = Alignment.Center) { if (branches[i]) Icon(Icons.Outlined.Check, null, tint = Color.White, modifier = Modifier.size(16.dp)) }
                     }
@@ -194,7 +194,7 @@ fun ServicesScreen(nav: StationNav) {
         item { SoftField(l("Search", "بحث"), query, { query = it }, icon = Icons.Outlined.Search) }
         items(Mock.services.filter { query.isBlank() || it.name.contains(query, true) }) { s ->
             GlassCard(padding = 10.dp) {
-                CarRow(l(s.name, s.nameAr), l("Since 1 Oct · was ${s.price - 50}", "منذ ١ أكتوبر · كان ${s.price - 50}"), icon = Icons.Outlined.History, onClick = {}) {
+                CarRow(l(s.name, s.nameAr), l("Since 1 Oct · was ${kwd(s.price - 500)}", "منذ ١ أكتوبر · كان ${kwd(s.price - 500, true)}"), icon = Icons.Outlined.History, onClick = {}) {
                     Text(money(s.price), fontWeight = FontWeight.Bold, color = CarColors.Navy)
                 }
             }
@@ -213,9 +213,9 @@ fun TaxPermissionsScreen(nav: StationNav) {
     CarPage(title = Screen.Tax.title(), onBack = nav::back) {
         item {
             GlassCard {
-                KeyValue(l("VAT", "الضريبة"), "14%", strong = true)
-                KeyValue(l("Effective from", "سارية من"), "1 Jul 2026")
-                KeyValue(l("Previous", "السابقة"), "14% · 2017")
+                KeyValue(l("VAT", "الضريبة"), "0%", strong = true)
+                KeyValue(l("Status", "الحالة"), l("Not applied in Kuwait", "غير مطبقة في الكويت"))
+                KeyValue(l("When VAT starts", "عند تطبيق الضريبة"), l("Set the rate here", "حدّد النسبة هنا"))
             }
         }
         item { SectionTitle(l("Permissions", "الصلاحيات")) }

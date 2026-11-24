@@ -6,6 +6,7 @@ import type { Dictionary } from '@/i18n/Dictionary';
 import { Glyph } from './Glyph';
 import { Phone_Frame } from './Phone_Frame';
 import { Plate_Scan_Visual } from './Plate_Scan_Visual';
+import { Kuwait_Plate } from './Kuwait_Plate';
 import { Brand_Glyph, Reveal } from './Site_Chrome';
 
 const ease = [0.2, 0, 0, 1] as const;
@@ -73,7 +74,7 @@ function App_Bar({ title, sub, dark = false }: { title: string; sub?: string; da
 
 /** Step 4: WhatsApp Business chat with a real-looking Arabic tax receipt. */
 function Whatsapp_Receipt() {
-  const rows: [string, string][] = [['تغيير زيت + فلتر', '٧٠٠٫٠٠'], ['تيل فرامل أمامي', '١٬٢٠٠٫٠٠'], ['ضريبة القيمة المضافة ١٤٪', '٢٦٦٫٠٠']];
+  const rows: [string, string][] = [['تغيير زيت + فلتر', '١٢٫٥٠٠'], ['فحمات فرامل أمامية', '٣٥٫٠٠٠'], ['ضبط زوايا', '٨٫٠٠٠']];
   return (
     <div dir="rtl" className="flex h-full flex-col bg-[#efeae2] font-arabic">
       {/* WhatsApp header */}
@@ -95,7 +96,7 @@ function Whatsapp_Receipt() {
           {/* receipt card */}
           <div className="bg-gradient-to-l from-navy to-[#123a66] px-3 py-2.5 text-white">
             <div className="flex items-center justify-between">
-              <span className="font-bold">إيصال ضريبي</span>
+              <span className="font-bold">إيصال دفع</span>
               <span className="rounded-full bg-[#25D366] px-2 py-0.5 text-[8.5px] font-bold text-white">مدفوع ✓</span>
             </div>
             <div className="mt-0.5 text-[8.5px] text-white/70" dir="ltr">GOS-2026-000123 · 24/11/2026</div>
@@ -107,7 +108,7 @@ function Whatsapp_Receipt() {
               </motion.div>
             ))}
             <div className="mt-1.5 flex items-center justify-between border-t border-dashed border-line pt-1.5">
-              <span className="font-bold">الإجمالي</span><span className="font-display text-[13px] font-extrabold text-navy">٢٬١٦٦٫٠٠ ج.م</span>
+              <span className="font-bold">الإجمالي</span><span className="font-display text-[13px] font-extrabold text-navy">٥٥٫٥٠٠ د.ك</span>
             </div>
           </div>
           <div className="mx-2 mb-2 flex items-center gap-2 rounded-lg bg-[#f5f6f6] p-2">
@@ -135,19 +136,18 @@ function Phone_Screen({ step, width }: { step: number; width?: number }) {
       <App_Bar title="Scan plate" sub="Bay 2 · Morning shift" dark />
       <div className="relative mx-4 mt-2 flex flex-1 items-center justify-center overflow-hidden rounded-3xl bg-gradient-to-b from-[#16304f] to-[#0a1626]">
         {['left-3 top-3 border-l-2 border-t-2', 'right-3 top-3 border-r-2 border-t-2', 'left-3 bottom-3 border-l-2 border-b-2', 'right-3 bottom-3 border-r-2 border-b-2'].map((c) => <span key={c} className={`absolute h-5 w-5 rounded-sm border-glow/80 ${c}`} />)}
-        <div className="relative w-[82%] overflow-hidden rounded-lg border-2 border-ink bg-white text-ink" dir="ltr">
-          <div className="flex justify-between bg-[#8EC3EA] px-2 text-[9px] font-extrabold"><span>EGYPT</span><span>مصر</span></div>
-          <div className="py-2 text-center font-arabic text-2xl font-extrabold">ق ص ر ١٤٢٧</div>
+        <div className="relative w-[86%] overflow-hidden rounded-lg">
+          <Kuwait_Plate code="12" number="34567" size="sm" />
           <motion.div className="absolute inset-y-0 w-1 bg-glow shadow-[0_0_16px_6px_rgba(127,211,207,.7)]" animate={{ left: ['0%', '97%', '0%'] }} transition={{ duration: 2.2, repeat: Infinity }} />
         </div>
       </div>
       <div className="m-4 flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-white">
-        <div><div className="text-[10px] text-white/55">Recognised</div><div className="font-mono text-sm font-bold">QCR1427</div></div>
+        <div><div className="text-[10px] text-white/55">Recognised</div><div className="font-mono text-sm font-bold">12 / 34567</div></div>
         <span className="rounded-full border border-glow/40 px-2.5 py-0.5 text-[11px] font-bold text-glow">98%</span>
       </div>
     </div>,
     <div key="1" className="flex h-full flex-col bg-paper">
-      <App_Bar title="Order #123" sub="Toyota Corolla · Silver" />
+      <App_Bar title="Order #123" sub="Toyota Land Cruiser · White" />
       <div className="mx-4 rounded-3xl bg-navy p-4 text-white">
         <div className="flex items-center justify-between text-[10px] text-white/60"><span>Timer</span><span className="flex items-center gap-1"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-glow" />Live</span></div>
         <div className="font-display text-3xl font-bold tracking-tight">00:42</div>
@@ -166,14 +166,14 @@ function Phone_Screen({ step, width }: { step: number; width?: number }) {
     <div key="2" className="flex h-full flex-col bg-paper">
       <App_Bar title="Checkout" sub="Receipt GOS-2026-000123" />
       <div className="mx-4 rounded-3xl bg-white p-4">
-        {[['Oil change', '700.00'], ['Brake pads', '1,200.00'], ['Subtotal', '1,900.00'], ['VAT 14%', '266.00']].map(([k, v], i) => (
+        {[['Oil change', '12.500'], ['Brake pads', '35.000'], ['Wheel alignment', '8.000'], ['Paid by', 'KNET']].map(([k, v], i) => (
           <motion.div key={k} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: i * 0.1 }} className={`flex justify-between py-1.5 text-xs ${i === 1 ? 'border-b border-line pb-2.5' : ''}`}><span className="text-mist">{k}</span><span className="font-mono text-ink">{v}</span></motion.div>
         ))}
       </div>
       <motion.div initial={{ scale: 0.92, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.45, type: 'spring' }} className="mx-4 mt-3 rounded-3xl bg-navy p-4 text-white">
-        <div className="text-[10px] text-white/60">Total · tax included</div><div className="font-display text-2xl font-bold">EGP 2,166.00</div>
+        <div className="text-[10px] text-white/60">Total</div><div className="font-display text-2xl font-bold">KWD 55.500</div>
       </motion.div>
-      <div className="mt-auto grid grid-cols-2 gap-2 p-4">{['Cash', 'Card'].map((m, i) => <span key={m} className={`rounded-2xl py-3 text-center text-xs font-bold ${i === 0 ? 'bg-amber text-navy' : 'border border-navy/15 text-navy'}`}>{m}</span>)}</div>
+      <div className="mt-auto grid grid-cols-2 gap-2 p-4">{['Cash', 'KNET'].map((m, i) => <span key={m} className={`rounded-2xl py-3 text-center text-xs font-bold ${i === 0 ? 'bg-amber text-navy' : 'border border-navy/15 text-navy'}`}>{m}</span>)}</div>
     </div>,
     <Whatsapp_Receipt key="3" />,
   ];

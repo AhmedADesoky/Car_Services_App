@@ -65,7 +65,7 @@ The apps never call Supabase directly. The tenant comes **only** from our JWT `t
 4. Android: QR scan on Bind (CameraX + ML Kit barcode), change-password screen (S2), Roboto Flex + Noto Kufi fonts in `res/font`.
 5. Android: `Core_Database` (Room + SQLCipher, one DB file per tenant, wiped on unbind).
 6. CI: GitHub Actions `Backend_Ci.yml`, `Android_Ci.yml` green on every PR.
-7. AI: download EALPR, run the synthetic generator (100 k), train detector v0.
+7. AI: start the Kuwaiti pilot capture (with consent), run the Kuwaiti synthetic generator (100 k), train detector v0.
 
 ## 6. Definition of Done (every feature)
 Works end-to-end on Android **and** iOS against the real backend · cross-tenant test added and passing ·

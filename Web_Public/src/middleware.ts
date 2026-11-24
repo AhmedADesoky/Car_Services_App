@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-/** "/" -> "/ar" or "/en" from the saved choice or the browser language (Arabic by default for Egypt). */
+/** "/" -> "/ar" or "/en" from the saved choice or the browser language (Arabic by default for Kuwait). */
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (/^\/(ar|en)(\/|$)/.test(pathname)) return NextResponse.next();

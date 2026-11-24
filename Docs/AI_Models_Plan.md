@@ -7,7 +7,7 @@ All training happens in **Jupyter notebooks** under `AI_Models/` (PyTorch). Ever
 | | Model 1 — Plate recognition | Model 2 — Face recognition | Model 3 — Face liveness |
 |---|---|---|---|
 | Owner | Android team (lead Abdelrahman Hisham) | Android team (lead Abdelrahman Hisham) | iOS team (lead Omar Mohamed) |
-| Job | Find the plate, read Arabic letters + Arabic-Indic digits | Face → 512-d embedding, 1:1 match | Live person vs photo / screen / video / mask |
+| Job | Find a **Kuwaiti** plate, read the code + number (Arabic-Indic **and** English digits, cross-checked) | Face → 512-d embedding, 1:1 match | Live person vs photo / screen / video / mask |
 | Target | 95 % exact match day, 90 % night | FAR 0.1 % at FRR ≤ 3 % | APCER ≤ 2 %, BPCER ≤ 5 % |
 | On device | < 15 MB, < 1.5 s | < 10 MB | < 10 MB |
 | Station fine-tune | **Yes** (own corrected scans only) | **No** (only templates + threshold) | Threshold per station; optional fine-tune with consent |
@@ -17,30 +17,32 @@ All training happens in **Jupyter notebooks** under `AI_Models/` (PyTorch). Ever
 ## Model 1 — License-plate recognition
 
 ### Architecture (two stages + voting)
-1. **Detector — YOLO11n** (640 px, ≈2.6 M params). Five classes = plate colour band
-   (private, taxi, transport, commercial, other), so plate type comes for free.
+1. **Detector — YOLO11n-pose** (640 px, ≈2.9 M params): box + **4 corner keypoints**, five classes = plate type
+   (private, taxi, commercial/transport, government, other - confirm current MOI types in P0). The corners warp every
+   plate to the canonical Kuwaiti layout (`Common_Utils/Kuwait_Plate_Layout.py`).
    * Why: the best small real-time detector, with built-in export to ONNX / TFLite int8 / Core ML.
    * Licence: AGPL-3.0. A closed-source commercial app needs an Ultralytics licence. The fallback with the same pipeline is
      **YOLOX-Tiny (Apache-2.0)**.
-2. **Recogniser on device — CRNN-CTC**: MobileNetV3-Small features → 2× BiLSTM(128) → CTC over the charset
-   *17 plate letters + ٠-٩ + A-Z + 0-9 + space*. ≈1.5 M params, ≈4 MB int8.
+2. **Recogniser on device — CRNN-CTC on 4 cells** (32×100 px): code and number, each in Arabic-Indic (top row)
+   and English (bottom row) digits. Charset = *٠-٩ + 0-9* only (Kuwaiti plates have no letters). ≈1 M params, ≈3 MB int8.
+   **Dual-row cross-check:** the two rows of each cell must agree; disagreement lowers confidence → server fallback.
 3. **Recogniser on server — PARSeq** (permuted autoregressive ViT, Apache-2.0). It is called only when phone
    confidence < 0.85 (`POST /v1/plates/recognize`) and is more robust on dirty, blurred and angled plates.
-4. **Pipeline:** frames every 150 ms → detector → **3 sharpest crops** (Laplacian variance) → recogniser →
-   majority vote on the normalised key → confidence = mean × agreement.
-5. **Normalisation** (`Common_Utils/Plate_Normalizer.py`): display `ق ص ر ١٤٢٧` ↔ key `QCR1427`. The table is
-   agreed with the owner in P0.
+4. **Pipeline:** frames every 150 ms → detector + corners → warp → 4 cells → recogniser → Arabic/English
+   cross-check → **vote over the 3 sharpest frames** → confidence = mean × agreement.
+5. **Normalisation** (`Common_Utils/Plate_Normalizer.py`): display `١٢ / ٣٤٥٦٧` + `12 / 34567` ↔ key `12-34567`
+   (code 1-2 digits, number up to 5 digits). Code ranges per plate type are confirmed with MOI rules in P0.
 
 ### Data (best available)
 | Data | Why | Notes |
 |---|---|---|
-| **EALPR** (Egyptian ALPR, ~2.4 k images with char boxes) | real Egyptian plates | research licence |
-| Kaggle Egyptian plate sets | more real variety | check each licence |
+| **Kuwaiti pilot-station capture** (3-5 k frames, owner's written consent) | real Kuwaiti plates, bays, summer glare | ours |
+| Public Kuwait / GCC plate sets (Kaggle, Roboflow Universe) | more real variety | **check each licence** |
 | **Open Images v7 — Vehicle registration plate** | detector pre-training at scale | CC-BY 4.0 |
-| **Synthetic Egyptian plates (100 k+)** | rare types, night, rain, glare, angles | notebook 02, OFL fonts |
+| **Synthetic Kuwaiti plates (100 k+)** | rare types, night, rain, glare, angles; exact cell alignment | notebook 02, OFL fonts |
 | Station corrected scans | per-station fine-tune only | stay in the tenant's storage prefix |
 
-Split by **plate text** so the same car is never in train and test.
+Split by **plate key** so the same car is never in train and test. No public Kuwaiti dataset of useful size is known - the synthetic generator and the pilot capture campaign are the critical path.
 
 ### Notebooks — `AI_Models/Plate_Recognition/`
 | Notebook | Output |
@@ -73,7 +75,7 @@ Split by **plate text** so the same car is never in train and test.
 | CASIA-WebFace (0.5 M / 10 k) | first baseline | research |
 | **DigiFace-1M** (synthetic) | pose / lighting variety | research |
 | LFW, CFP-FP, AgeDB-30, **IJB-C** | evaluation | research |
-| Consented in-house set (Egyptian workers, garage light, caps / masks) | bias + threshold checks | written consent |
+| Consented in-house set (Kuwait station workers: South Asian, Arab, Filipino and other backgrounds; garage light, caps / masks) | bias + threshold checks per group | written consent |
 
 ⚠️ Before a **commercial launch** the owner must choose: licensed training data, or a licensed face SDK.
 

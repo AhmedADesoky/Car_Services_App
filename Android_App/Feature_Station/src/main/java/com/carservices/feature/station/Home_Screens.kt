@@ -62,7 +62,7 @@ import com.carservices.core.designsystem.CarButton
 import com.carservices.core.designsystem.CarColors
 import com.carservices.core.designsystem.CarPage
 import com.carservices.core.designsystem.CarRow
-import com.carservices.core.designsystem.EgyptPlate
+import com.carservices.core.designsystem.KuwaitPlate
 import com.carservices.core.designsystem.GlassCard
 import com.carservices.core.designsystem.GlassIconButton
 import com.carservices.core.designsystem.Glyph
@@ -82,7 +82,7 @@ import com.carservices.core.designsystem.l
 fun isAr() = LocalAppLanguage.current == AppLanguage.Arabic
 
 @Composable @ReadOnlyComposable
-fun money(amount: Int) = egp(amount, isAr())
+fun money(fils: Int) = kwd(fils, isAr())
 
 /* ===================================================================================== 02 home */
 
@@ -116,7 +116,7 @@ fun WorkerHomeScreen(nav: StationNav, userName: String, stationName: String) {
 fun OrderCard(order: MockOrder, onClick: () -> Unit) {
     GlassCard(onClick = onClick, padding = 16.dp) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            EgyptPlate(order.letters, order.digits, scale = 0.5f)
+            KuwaitPlate(order.plateCode, order.plateNumber, scale = 0.5f)
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
                 Text(order.car, style = MaterialTheme.typography.titleMedium, color = CarColors.NavyInk, maxLines = 1)
@@ -155,7 +155,7 @@ fun ShiftCard(onCheckIn: () -> Unit) {
                     Spacer(Modifier.height(6.dp))
                     Text(l("Morning shift", "الوردية الصباحية"), style = MaterialTheme.typography.headlineSmall, color = CarColors.Navy)
                     Spacer(Modifier.height(6.dp))
-                    StatusPill(l("Nasr City · inside · 40 m", "مدينة نصر · داخل النطاق · ٤٠ م"), CarColors.Teal)
+                    StatusPill(l("Shuwaikh · inside · 40 m", "الشويخ · داخل النطاق · ٤٠ م"), CarColors.Teal)
                 }
                 // face badge with an orbiting scan arc
                 Box(Modifier.size(70.dp), contentAlignment = Alignment.Center) {
@@ -238,7 +238,7 @@ fun CustomersScreen(nav: StationNav) {
                         Text(c.name, style = MaterialTheme.typography.titleMedium, color = CarColors.NavyInk)
                         Text("${c.car} · ${c.visits} ${l("visits", "زيارة")}", style = MaterialTheme.typography.bodyMedium, color = CarColors.TextSecondary)
                     }
-                    EgyptPlate(c.letters, c.digits, scale = 0.42f)
+                    KuwaitPlate(c.plateCode, c.plateNumber, scale = 0.42f)
                 }
             }
         }

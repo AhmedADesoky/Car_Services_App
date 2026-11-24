@@ -5,7 +5,7 @@ const en = {
   meta: { title: 'GarageOS — run every bay like clockwork', description: 'One app for vehicle service stations: plate scanning, orders, WhatsApp receipts, face check-in and a private, isolated system for every station. Android and iOS, Arabic and English.' },
   nav: { how: 'How it works', features: 'Features', security: 'Privacy', plans: 'Plans', faq: 'Ask AI', cta: 'Request your station', lang: 'العربية' },
   hero: {
-    eyebrow: 'For vehicle service stations in Egypt',
+    eyebrow: 'For vehicle service stations in Kuwait',
     title1: 'Run every bay', title2: 'like clockwork.',
     text: 'Scan a plate and the order opens. Finish the work and the receipt reaches the customer on WhatsApp. Workers check in with their face at the station. Your data stays yours.',
     primary: 'Request your station', secondary: 'See how a car moves',
@@ -15,16 +15,16 @@ const en = {
   flow: {
     eyebrow: 'How a car moves through your station', title: 'From the gate to the receipt in four taps',
     steps: [
-      { title: 'Scan the plate', text: 'The camera reads Egyptian plates — Arabic letters and Arabic-Indic digits — in about a second. A returning car shows its owner and full history.' },
+      { title: 'Scan the plate', text: 'The camera reads Kuwaiti plates — the code and number in Arabic and English digits — in about a second. A returning car shows its owner and full history.' },
       { title: 'Open the order', text: 'Pick the repairs from your price list, assign workers, and the timer starts. Prices and tax are locked at that moment.' },
       { title: 'Finish and check out', text: 'Each worker marks their job done with what they fixed. The receipt is calculated with tax, numbered without gaps.' },
-      { title: 'Get paid, send on WhatsApp', text: 'Cash, card or both. The receipt goes to the customer’s WhatsApp from your own business number.' },
+      { title: 'Get paid, send on WhatsApp', text: 'Cash, KNET, card or a mix. The receipt goes to the customer’s WhatsApp from your own business number.' },
     ],
   },
   features: {
     eyebrow: 'Everything a station needs', title: 'One system for every bay, every worker and every pound.',
     items: [
-      { title: 'Plate AI', text: 'On-phone recognition built for Egyptian plates, with a station-trained model that gets better with every correction.' },
+      { title: 'Plate AI', text: 'On-phone recognition built for Kuwaiti plates, with a station-trained model that gets better with every correction.' },
       { title: 'Face + location check-in', text: 'Workers check in only when they are at the branch, with a live-face check so a photo or video cannot cheat.' },
       { title: '2D car service map', text: 'Tap any part of the customer’s car to see what was repaired, replaced or needs attention.' },
       { title: 'WhatsApp receipts', text: 'Arabic or English receipts with your logo, sent from your own WhatsApp Business number.' },
@@ -50,9 +50,9 @@ const en = {
   form: {
     eyebrow: 'Request your station', title: 'Tell us about your station', text: 'Our team reviews every request and contacts you. When it is approved, the owner receives a private activation link.',
     steps: ['Your business', 'Size & plan', 'Contact'],
-    stepHints: ['Name and city', 'Branches, workers and plan', 'Who should we call?'],
+    stepHints: ['Name and governorate', 'Branches, workers and plan', 'Who should we call?'],
     ticket: 'Your request', ticketEmpty: 'Start typing, your request builds itself here.', perks: ['No payment now', 'Reviewed by a person', 'Private activation link'],
-    businessName: 'Business name (English)', businessNameAr: 'Business name (Arabic)', city: 'City', branches: 'Branches', workers: 'Workers', plan: 'Plan',
+    businessName: 'Business name (English)', businessNameAr: 'Business name (Arabic)', city: 'Governorate', branches: 'Branches', workers: 'Workers', plan: 'Plan',
     contactName: 'Your name', phone: 'Mobile number', email: 'Email (optional)', message: 'Anything else? (optional)',
     next: 'Next', back: 'Back', submit: 'Send request', sending: 'Sending…',
     successTitle: 'Request received', successText: 'Thank you. Our team will call you soon. Nothing is created until we review it together.',
@@ -61,7 +61,7 @@ const en = {
   faq: {
     title: 'Questions owners ask',
     items: [
-      { q: 'Do I need special hardware?', a: 'No. Workers use their Android or iPhone. Card payments use your existing POS terminal.' },
+      { q: 'Do I need special hardware?', a: 'No. Workers use their Android or iPhone. KNET and card payments use your existing payment terminal.' },
       { q: 'Can my workers fake their attendance?', a: 'Check-in needs the worker’s live face and a real location inside your branch. Photos, videos and fake-GPS apps are refused.' },
       { q: 'Who can see my customers and revenue?', a: 'Only the people you allow inside your station. Our company sees usage totals only, never your business data.' },
       { q: 'Does it work in Arabic?', a: 'Yes. Arabic and English are switched in one tap and the whole app mirrors right-to-left.' },
@@ -79,7 +79,7 @@ const en = {
   footer: {
     rights: 'All rights reserved.', privacy: 'Privacy', terms: 'Terms', staff: 'Built for owners, workers and accountants.',
     ctaTitle: 'Ready to run every bay like clockwork?', ctaText: 'Tell us about your station. Our team calls you within one working day.',
-    product: 'Product', company: 'Company', legal: 'Legal', contact: 'Contact', ask: 'Ask our AI', made: 'Designed and built in Cairo',
+    product: 'Product', company: 'Company', legal: 'Legal', contact: 'Contact', ask: 'Ask our AI', made: 'Made for service stations in Kuwait',
     status: 'All systems normal',
   },
   activate: {
@@ -98,7 +98,7 @@ const ar: Dictionary = {
   meta: { title: 'جراج أو إس — أدِر كل ورشة بدقة الساعة', description: 'تطبيق واحد لمحطات خدمة السيارات: قراءة اللوحات، الطلبات، إيصالات واتساب، الحضور بالوجه، ونظام خاص ومعزول لكل محطة. أندرويد وآيفون، عربي وإنجليزي.' },
   nav: { how: 'كيف يعمل', features: 'المميزات', security: 'الخصوصية', plans: 'الباقات', faq: 'اسأل المساعد', cta: 'اطلب محطتك', lang: 'English' },
   hero: {
-    eyebrow: 'لمحطات خدمة السيارات في مصر',
+    eyebrow: 'لمحطات خدمة السيارات في الكويت',
     title1: 'أدِر كل ورشة', title2: 'بدقة الساعة.',
     text: 'امسح اللوحة فيُفتح الطلب. أنهِ العمل فيصل الإيصال للعميل على واتساب. العمال يسجلون حضورهم بالوجه داخل المحطة. وبياناتك تبقى ملكك.',
     primary: 'اطلب محطتك', secondary: 'شاهد رحلة السيارة',
@@ -108,16 +108,16 @@ const ar: Dictionary = {
   flow: {
     eyebrow: 'رحلة السيارة داخل محطتك', title: 'من البوابة حتى الإيصال في أربع لمسات',
     steps: [
-      { title: 'امسح اللوحة', text: 'الكاميرا تقرأ اللوحات المصرية — الحروف العربية والأرقام — في حوالي ثانية. السيارة العائدة تظهر بصاحبها وتاريخها كاملاً.' },
+      { title: 'امسح اللوحة', text: 'الكاميرا تقرأ اللوحات الكويتية — الرمز والرقم بالأرقام العربية والإنجليزية — في حوالي ثانية. السيارة العائدة تظهر بصاحبها وتاريخها كاملاً.' },
       { title: 'افتح الطلب', text: 'اختر الإصلاحات من قائمة أسعارك، وعيّن العمال، فيبدأ المؤقت. السعر والضريبة يُثبتان في تلك اللحظة.' },
       { title: 'أنهِ العمل واحسب الفاتورة', text: 'كل عامل يُنهي مهمته ويكتب ما أصلحه. الإيصال يُحسب بالضريبة وبترقيم متسلسل بلا فجوات.' },
-      { title: 'استلم المبلغ وأرسل على واتساب', text: 'نقدي أو بطاقة أو الاثنان. الإيصال يصل لواتساب العميل من رقم نشاطك التجاري.' },
+      { title: 'استلم المبلغ وأرسل على واتساب', text: 'نقداً أو كي نت أو بطاقة أو مزيج منها. الإيصال يصل لواتساب العميل من رقم نشاطك التجاري.' },
     ],
   },
   features: {
     eyebrow: 'كل ما تحتاجه المحطة', title: 'نظام واحد. لكل ورشة وكل عامل وكل جنيه.',
     items: [
-      { title: 'ذكاء قراءة اللوحات', text: 'قراءة على الهاتف مصممة للوحات المصرية، ونموذج خاص بمحطتك يتحسن مع كل تصحيح.' },
+      { title: 'ذكاء قراءة اللوحات', text: 'قراءة على الهاتف مصممة للوحات الكويتية، ونموذج خاص بمحطتك يتحسن مع كل تصحيح.' },
       { title: 'حضور بالوجه والموقع', text: 'العامل يسجل حضوره فقط داخل الفرع، مع فحص الوجه الحي فلا تنفع صورة أو فيديو.' },
       { title: 'خريطة صيانة ثنائية الأبعاد', text: 'المس أي جزء من سيارة العميل لترى ما تم إصلاحه أو تغييره أو ما يحتاج متابعة.' },
       { title: 'إيصالات واتساب', text: 'إيصالات بالعربي أو الإنجليزي بشعارك، تُرسل من رقم واتساب الأعمال الخاص بك.' },
@@ -143,10 +143,10 @@ const ar: Dictionary = {
   form: {
     eyebrow: 'اطلب محطتك', title: 'أخبرنا عن محطتك', text: 'فريقنا يراجع كل طلب ويتواصل معك. عند الموافقة يصل للمالك رابط تفعيل خاص.',
     steps: ['نشاطك', 'الحجم والباقة', 'التواصل'],
-    stepHints: ['الاسم والمدينة', 'الفروع والعمال والباقة', 'من نتصل به؟'],
+    stepHints: ['الاسم والمحافظة', 'الفروع والعمال والباقة', 'من نتصل به؟'],
     ticket: 'طلبك', ticketEmpty: 'ابدأ الكتابة، وسيتكوّن طلبك هنا.', perks: ['بدون دفع الآن', 'مراجعة بشرية', 'رابط تفعيل خاص'],
-    businessName: 'اسم النشاط (إنجليزي)', businessNameAr: 'اسم النشاط (عربي)', city: 'المدينة', branches: 'الفروع', workers: 'العمال', plan: 'الباقة',
-    contactName: 'اسمك', phone: 'رقم الموبايل', email: 'البريد الإلكتروني (اختياري)', message: 'أي تفاصيل أخرى؟ (اختياري)',
+    businessName: 'اسم النشاط (إنجليزي)', businessNameAr: 'اسم النشاط (عربي)', city: 'المحافظة', branches: 'الفروع', workers: 'العمال', plan: 'الباقة',
+    contactName: 'اسمك', phone: 'رقم الهاتف', email: 'البريد الإلكتروني (اختياري)', message: 'أي تفاصيل أخرى؟ (اختياري)',
     next: 'التالي', back: 'رجوع', submit: 'إرسال الطلب', sending: 'جارٍ الإرسال…',
     successTitle: 'تم استلام طلبك', successText: 'شكراً لك. سيتواصل معك فريقنا قريباً. لا يتم إنشاء أي شيء قبل مراجعته معك.',
     errorGeneric: 'تعذّر الإرسال. تحقق من الاتصال وحاول مرة أخرى.', errorRate: 'طلبات كثيرة من هذه الشبكة. حاول بعد دقائق.',
@@ -154,7 +154,7 @@ const ar: Dictionary = {
   faq: {
     title: 'أسئلة يطرحها أصحاب المحطات',
     items: [
-      { q: 'هل أحتاج أجهزة خاصة؟', a: 'لا. العمال يستخدمون هواتف أندرويد أو آيفون. الدفع بالبطاقة عبر ماكينة الدفع الموجودة لديك.' },
+      { q: 'هل أحتاج أجهزة خاصة؟', a: 'لا. العمال يستخدمون هواتف أندرويد أو آيفون. الدفع بـ كي نت أو البطاقة عبر جهاز الدفع الموجود لديك.' },
       { q: 'هل يستطيع العمال تزوير الحضور؟', a: 'تسجيل الحضور يحتاج وجه العامل الحي وموقعاً حقيقياً داخل الفرع. الصور والفيديو وتطبيقات الموقع المزيف مرفوضة.' },
       { q: 'من يستطيع رؤية عملائي وإيراداتي؟', a: 'فقط من تسمح لهم داخل محطتك. شركتنا ترى إجماليات الاستخدام فقط، ولا ترى بيانات نشاطك أبداً.' },
       { q: 'هل يعمل بالعربي؟', a: 'نعم. العربي والإنجليزي بلمسة واحدة، والتطبيق كله ينعكس من اليمين لليسار.' },
@@ -164,15 +164,15 @@ const ar: Dictionary = {
   assistant: {
     eyebrow: 'اسأل أي شيء', title: 'أسئلتك، بإجابة في ثوانٍ.', text: 'مساعدنا الذكي يعرف GarageOS بالتفصيل — الباقات، قراءة اللوحات، الحضور، الخصوصية، وكيف تبدأ. اسأل بالعربي أو الإنجليزي.',
     name: 'مساعد GarageOS', status: 'متصل · يرد فوراً', offline: 'إجابات سريعة', placeholder: 'اسأل عن الباقات، الحضور، الخصوصية…', send: 'إرسال', clear: 'محادثة جديدة',
-    hello: 'أهلاً! أقدر أشرح لك إزاي GarageOS بيشتغل في محطتك. حابب تعرف إيه؟',
-    suggestions: ['أي باقة تناسب ٣ فروع؟', 'هل يقدر العامل يزوّر الحضور؟', 'مين يقدر يشوف إيراداتي؟', 'أبدأ إزاي؟'],
+    hello: 'أهلاً وسهلاً! أستطيع أن أشرح لك كيف يعمل GarageOS في محطتك. ماذا تود أن تعرف؟',
+    suggestions: ['أي باقة تناسب ٣ فروع؟', 'هل يستطيع العامل التلاعب بالحضور؟', 'من يستطيع رؤية إيراداتي؟', 'كيف أبدأ؟'],
     disclaimer: 'إجابات الذكاء الاصطناعي قد لا تكون دقيقة دائماً. الأسعار يؤكدها فريقنا.', error: 'تعذّر الوصول للمساعد. هذه أقرب إجابة أعرفها:', busy: 'أسئلة كثيرة من هذه الشبكة. انتظر بضع دقائق.',
     fallback: 'لا أملك هذه الإجابة بدون اتصال. أرسل طلب محطتك وسيتصل بك فريقنا.',
   },
   footer: {
     rights: 'جميع الحقوق محفوظة.', privacy: 'الخصوصية', terms: 'الشروط', staff: 'مصمم لأصحاب المحطات والعمال والمحاسبين.',
     ctaTitle: 'جاهز تدير كل مكان في محطتك بدقة الساعة؟', ctaText: 'أخبرنا عن محطتك. فريقنا يتصل بك خلال يوم عمل واحد.',
-    product: 'المنتج', company: 'الشركة', legal: 'قانوني', contact: 'تواصل', ask: 'اسأل المساعد الذكي', made: 'صُمم وطُوّر في القاهرة',
+    product: 'المنتج', company: 'الشركة', legal: 'قانوني', contact: 'تواصل', ask: 'اسأل المساعد الذكي', made: 'صُمم لمحطات الخدمة في الكويت',
     status: 'كل الأنظمة تعمل',
   },
   activate: {

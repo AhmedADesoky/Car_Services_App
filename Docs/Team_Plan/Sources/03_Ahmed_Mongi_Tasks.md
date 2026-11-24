@@ -41,7 +41,7 @@
 
 ### 1.4 Design system completion
 - Add **Roboto Flex** and **Noto Kufi Arabic** to `Core_Designsystem/src/main/res/font/` (lowercase file names required: `roboto_flex.ttf`, `noto_kufi_arabic.ttf`, OFL licence) and switch `CarFont`.
-- Components from the artboards: plate chip (EGYPT/مصر band), status pill, order card with progress, stat card, bottom navigation (Home, Orders, Customers, Profile), segmented filters, bottom sheet, empty / error states.
+- Components from the artboards: plate chip (Kuwaiti plate: الكويت/KUWAIT strip, code | number in Arabic + English digits), status pill, order card with progress, stat card, bottom navigation (Home, Orders, Customers, Profile), segmented filters, bottom sheet, empty / error states.
 - Fix: the segmented EN/عربي toggle shape looks wrong in RTL — use `SegmentedButtonDefaults.itemShape(index, count)` with `LocalLayoutDirection` aware ordering, or a custom pill.
 - Motion from the design note: shared-axis X 300 ms between screens, fade-through 200 ms, 8 px rise + 40 ms stagger (max 6 items), respect "Remove animations".
 
@@ -72,7 +72,7 @@ ktlint (disable `filename` rule — files are `Word_Word`), detekt, unit tests (
 | **S4** branches | list + **Google Maps Compose** geofence editor: draggable center, radius slider 30–1000 m (default 100), optional polygon; show warning if radius < 50 m (GPS accuracy) |
 | **19, 20, 21, S12** | worker account + location, services & prices (add price with effective date, history list), tax rates + role permissions matrix, custom roles editor (disabled on Basic plan) |
 | **22** customer profile | header, call button (`ACTION_DIAL`), vehicle tabs, **2D car service map** from artboard 08 (Compose `Canvas`, body outline per `bodyType`, 14 tappable parts as `Modifier.clickable` boxes with semantics labels, colours repaired/replaced/attention + pulsing attention, bottom sheet history) |
-| **08** new car | plate (from scan, editable with Egyptian plate preview), make/model pickers, customer name + phone, consent switch for WhatsApp (CUS-05) |
+| **08** new car | plate (from scan, editable with Kuwaiti plate preview: code 1-2 digits + number up to 5 digits), make/model pickers, customer name + phone, consent switch for WhatsApp (CUS-05) |
 | **09 / 10** | returning car card + View History; history newest first, follow-up banner |
 | **11** problem + repairs | problem text, optional voice note (MediaRecorder, ≤ 2 min) + photos (≤ 10), searchable service list with prices (read-only snapshot), assignees picker |
 | **12** order in progress | items with assignees, finish item (fix performed text + outcome + car part), live timer, add item, cancel (managers) |
